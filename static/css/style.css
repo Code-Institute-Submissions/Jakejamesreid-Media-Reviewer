@@ -1,9 +1,19 @@
+body {
+    background: #f8f9fa;
+    color: #212529;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+
+/* # Navigation Bar */
 #mainNav {
     border-bottom: 1px solid #e9ecef;
     background-color: white;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
 
 #mainNav .navbar-brand {
     font-weight: 800;
@@ -27,6 +37,115 @@
     float: none;
 }
 
+/* # Content */
 #content{
-    padding-top: 50px;
+    width: 100%;
+}
+
+/* # Listings */
+.content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.article-img {
+    height: 200px;
+    width: 200px;
+    margin-right: 16px;
+}
+  
+.article-header-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3;
+    color:#007bff;
+}
+    
+
+.article-title {
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.article-title a{
+    color: #444444;
+}
+.article-footer-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    display: inline-block;
+    position: relative;
+}
+
+/* ##Circular Progress Bar */
+.progress {
+    width: 150px;
+    height: 150px;
+    background: none;
+    position: relative;
+}
+
+.progress::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.progress .progress-left {
+    left: 0;
+}
+
+.progress .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 6px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.progress .progress-left .progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.progress .progress-right {
+    right: 0;
+}
+
+.progress .progress-right .progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+}
+
+.progress .progress-value {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

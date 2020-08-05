@@ -69,7 +69,7 @@ Below is a list if the specific user stories for this project.
 * [GIT](https://git-scm.com/) - Version Control
 * [Heroku](https://heroku.com) - to host the project
 * [JQuery](https://jquery.com) - Used to simplify Javascript
-
+* [FontAwesome](https://fontawesome.com/) - Used for icons
 ---
 
 
@@ -91,7 +91,7 @@ The list below displays the current **closed** issues with the project:
 ## Credits
 
 ### Data
-The data for this project was gotten from the data.gov.ie website:
+The data for this project was gotten from the following websites:
 
 
 ### Media
@@ -102,6 +102,9 @@ I received inspiration for the design of the website from:
 
 
 I used the following websites for reseach:
-
+* https://getbootstrap.com/docs/4.0/layout/media-object/
+* https://bootstrapious.com/snippets
+* https://speckyboy.com/css-content-cards/
+* https://bootstrapious.com/p/circular-progress-bar
 
 ### Attribution

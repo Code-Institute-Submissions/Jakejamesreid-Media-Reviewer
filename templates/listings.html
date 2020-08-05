@@ -8,7 +8,32 @@
     {% endblock title %}
     
     {% block content %}
-        {% block listings %}
-        {% endblock listings %}
+        {% for post in posts %}
+            <article class="media content-section shadow">
+                <img class="article-img mr-3" src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Generic placeholder image">
+                <div class="media-body">
+                    <div class="article-header-metadata">
+                        <a class="mr-2">{{ post.platform }}</a>
+                    </div>
+                    <h2 class="article-title"><a href="#">{{ post.title }}</a></h2>
+                    <div class="article-footer-metadata">
+                        <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date }}</a> </span>
+                        <a href="#"><i class="far fa-thumbs-up mr-1" ></i></a><small class="text-muted">{{ post.likes }}</small>
+                    </div>
+                </div>
+                <!-- Need to set data value to -->
+                <div class="progress mx-auto my-auto" data-value='{{ post.rating }}'>
+                    <span class="progress-left">
+                        <span class="progress-bar border-primary"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar border-primary"></span>
+                    </span>
+                    <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="h2 font-weight-bold">{{ post.rating }}<small>%</small></div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
     {% endblock %}
     
