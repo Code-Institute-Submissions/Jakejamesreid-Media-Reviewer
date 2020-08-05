@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% block title %}
+        {% if category %}
+        <title>{{ category }} Listings</title>
+        {% else %}
+        <title>Listings</title>
+        {% endif %}
+    {% endblock title %}
+    
+    {% block content %}
+        {% block listings %}
+        {% endblock listings %}
+    {% endblock %}
+    
