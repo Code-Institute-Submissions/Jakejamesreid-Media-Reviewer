@@ -99,7 +99,7 @@ The photos used in this site were obtained from:
 
 ### Acknowledgements
 I received inspiration for the design of the website from:
-
+https://www.metacritic.com/
 
 I used the following websites for reseach:
 * https://getbootstrap.com/docs/4.0/layout/media-object/
@@ -107,4 +107,12 @@ I used the following websites for reseach:
 * https://speckyboy.com/css-content-cards/
 * https://bootstrapious.com/p/circular-progress-bar
 
+Data for films was taken from:
+https://www.imdb.com/
+
+Data for video games was taken from:
+https://www.metacritic.com/
+
+All trailers were taken from:
+https://www.youtube.com/
 ### Attribution

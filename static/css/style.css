@@ -8,6 +8,10 @@ body {
     color: #444444;
   }
 
+  .section{
+      padding-bottom: 20px;
+  }
+
 /* # Navigation Bar */
 #mainNav {
     border-bottom: 1px solid #e9ecef;
@@ -148,4 +152,46 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+/* #Media Page */
+.heading{
+    vertical-align: middle;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 2.3em;
+}
+
+.review-btn{
+    text-align: end;
+}
+
+/* ##User Review Section */
+.review_grade {
+    display: inline;
+}
+
+.review_sctn{
+    background: white;
+    border-radius: 15px;
+    border-width: 2px;
+    border-color: rgb(204, 204, 204);
+    border-style: solid;
+    padding: 10px;
+}
+
+.user_rating {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    height: 2.3em;
+    width: 2.3em;
+    line-height: 2.3em;
+    font-size: 17px;
+    color: rgb(255, 255, 255);
+    font-style: normal;
+    font-weight: bold;
+    border-radius: 55%;
+}
+.user_rating.positive{
+    background-color: rgb(102, 204, 51);
 }

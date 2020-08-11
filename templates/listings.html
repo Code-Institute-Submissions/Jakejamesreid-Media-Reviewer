@@ -15,14 +15,13 @@
                     <div class="article-header-metadata">
                         <a class="mr-2">{{ post.media_category }}</a>
                     </div>
-                    <h2 class="article-title"><a href="#">{{ post.name }}</a></h2>
+                    <h2 class="article-title"><a href="{{ url_for('game_media', media=post.name) }}">{{ post.name }}</a></h2>
                     <div class="article-footer-metadata">
                         <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date_uploaded }}</a> </span>
                         <a href="#"><i class="far fa-thumbs-up mr-1" ></i></a><small class="text-muted">{{ post.likes }}</small>
                     </div>
                 </div>
 
-                <!-- Need to set data value to -->
                 <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating }}'>
                     <span class="progress-left">
                         <span class="progress-bar border-primary"></span>

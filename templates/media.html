@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if category %}
+        <title>{{ category }} Listings</title>
+    {% else %}
+        <title>Listings</title>
+    {% endif %}
+{% endblock title %}
+
+{% block content %}
+<div class="container title section">
+    <div class="media-title row">
+        <div class="heading col-sm-8 text-right">
+            <h1>{{ media.name }} </h1>
+        </div>
+        <div class="review_grade col-sm-4">
+            <div class="user_rating positive">{{ media.overall_rating }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="container trailer">
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="{{ media.video_url }}" allowfullscreen></iframe>
+    </div>
+</div>
+
+
+<!-- Details -->
+<div class="container details section">
+    <div class="row">
+        <div class="col-sm-12">
+            <hr>
+            <h5>Developer: <span class="text-muted">{{ media.developer }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<!-- Summary -->
+<div class="container summary section">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Summary</h2>
+            <p>{{ media.description }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- User Reviews -->
+<div class="container">
+    <div class="row">
+        <div class="heading col-sm-6">
+            <h2 class="module_title">User Reviews</h2>
+        </div>
+        <div class="review-btn col-sm-6">
+            <button class="btn-info">Add Review</button>
+        </div>
+        {% for review in media.review %}
+            {% if loop.even%}
+                <div class="left col-sm-6">
+                    <!-- See if this can be put into a template -->
+                    <div class="body">
+                        <ol class="user_reviews list-unstyled">
+                            <li class="user_review">
+                                <div class="review_sctn">
+                                    <div class="review_stats row">
+                                        <div class="review_grade col-sm-2">
+                                            <div class="user_rating positive">{{ review.rating }}</div>
+                                        </div>
+                                        <div class="review_user col-sm-10">
+                                            <div class="font-weight-bold">{{ review.author }}</div>
+                                            <div class="text-muted">{{ review.date_uploaded }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review_body">
+                                        <p class="mb-0">{{ review.comment }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            {% else %}
+                <div class="right col-sm-6">
+                    <div class="body">
+                        <ol class="user_reviews list-unstyled">
+                            <li class="user_review">
+                                <div class="review_sctn">
+                                    <div class="review_stats row">
+                                        <div class="review_grade col-sm-2">
+                                            <div class="user_rating positive">{{ review.rating }}</div>
+                                        </div>
+                                        <div class="review_user col-sm-10">
+                                            <div class="font-weight-bold">{{ review.author }}</div>
+                                            <div class="text-muted">{{ review.date_uploaded }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review_body">
+                                        <p class="mb-0">{{ review.comment }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
