@@ -9,103 +9,176 @@
 {% endblock title %}
 
 {% block content %}
-<div class="container title section">
-    <div class="media-title row">
-        <div class="heading col-sm-8 text-right">
-            <h1>{{ media.name }} </h1>
-        </div>
-        <div class="review_grade col-sm-4">
-            <div class="user_rating positive">{{ media.overall_rating }}</div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container title section">
+        <div class="media-title row">
+            <div class="heading col-sm-8 text-right">
+                <h1>{{ media.name }} </h1>
+            </div>
+            <div class="review_grade col-sm-4">
+                <div class="user_rating positive">{{ media.overall_rating }}</div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container trailer">
-    <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="{{ media.video_url }}" allowfullscreen></iframe>
-    </div>
-</div>
-
-
-<!-- Details -->
-<div class="container details section">
-    <div class="row">
-        <div class="col-sm-12">
-            <hr>
-            <h5>Developer: <span class="text-muted">{{ media.developer }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
-            <hr>
+    <div class="container trailer">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="{{ media.video_url }}" allowfullscreen></iframe>
         </div>
     </div>
-</div>
 
-<!-- Summary -->
-<div class="container summary section">
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>Summary</h2>
-            <p>{{ media.description }}</p>
+    <!-- Details -->
+    <div class="container details section">
+        <div class="row">
+            <div class="col-sm-12">
+                <hr>
+                <h5>Developer: <span class="text-muted">{{ media.developer }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
+                <hr>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- User Reviews -->
-<div class="container">
-    <div class="row">
-        <div class="heading col-sm-6">
-            <h2 class="module_title">User Reviews</h2>
+    <!-- Summary -->
+    <div class="container summary section">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>Summary</h2>
+                <p>{{ media.description }}</p>
+            </div>
         </div>
-        <div class="review-btn col-sm-6">
-            <button class="btn-info">Add Review</button>
-        </div>
-        {% for review in media.review %}
-            {% if loop.even%}
-                <div class="left col-sm-6">
-                    <!-- See if this can be put into a template -->
-                    <div class="body">
-                        <ol class="user_reviews list-unstyled">
-                            <li class="user_review">
-                                <div class="review_sctn">
-                                    <div class="review_stats row">
-                                        <div class="review_grade col-sm-2">
-                                            <div class="user_rating positive">{{ review.rating }}</div>
+    </div>
+
+    <!-- User Reviews -->
+    <div class="container">
+        <div class="row">
+            <div class="heading col-sm-6">
+                <h2 class="module_title">User Reviews</h2>
+            </div>
+            <div class="review-btn col-sm-6">
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#submit-review" role="button">
+                        Submit Review
+                    </a>
+                </p>
+            </div>
+            
+            <div class="col-sm-12 pb-4">
+                <div class="collapse" id="submit-review">
+                    <div class="card-style">
+                        <form action="" method="post">
+                            {{ form.hidden_tag() }}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Submit Review</legend>
+                                <div class="form-group">
+                                    {{ form.name.label(class="form-control-label") }}
+                                    {% if form.name.errors %}
+                                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
                                         </div>
-                                        <div class="review_user col-sm-10">
-                                            <div class="font-weight-bold">{{ review.author }}</div>
-                                            <div class="text-muted">{{ review.date_uploaded }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="review_body">
-                                        <p class="mb-0">{{ review.comment }}</p>
-                                    </div>
+                                    {% else %}
+                                        {{ form.name(class="form-control form-control-lg") }}
+                                    {% endif %}
+
                                 </div>
-                            </li>
-                        </ol>
+
+                                <div class="form-group">
+                                    {{ form.rating.label(class="form-control-label") }}
+                                    {% if form.rating.errors %}
+                                        {{ form.rating(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.rating.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.rating(class="form-control form-control-lg") }}
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-group">
+                                    {{ form.comment.label(class="form-control-label") }}
+                                    {% if form.comment.errors %}
+                                        {{ form.comment(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.comment(class="form-control form-control-lg") }}
+                                    {% endif %}
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-outline-info") }}
+                            </div>
+                        </form>
                     </div>
                 </div>
-            {% else %}
-                <div class="right col-sm-6">
-                    <div class="body">
-                        <ol class="user_reviews list-unstyled">
-                            <li class="user_review">
-                                <div class="review_sctn">
-                                    <div class="review_stats row">
-                                        <div class="review_grade col-sm-2">
-                                            <div class="user_rating positive">{{ review.rating }}</div>
+            </div>
+            {% for review in media.review %}
+                {% if loop.index0 % 2 == 0 %}
+                <!-- TODO: Fix spacing issue between reviews -->
+                    <div class="col-sm-6">
+                        <!-- TODO: See if this can be put into a template -->
+                        <div>
+                            <ol class="list-unstyled">
+                                <li>
+                                    <div class="card-style">
+                                        <div class="row">
+                                            <div class="review-grade col-sm-2">
+                                                <div class="user-rating positive">{{ review.rating }}</div>
+                                            </div>
+                                            <div class="review-user col-sm-10">
+                                                <div class="font-weight-bold">{{ review.author }}</div>
+                                                <div class="text-muted">{{ review.date_uploaded }}</div>
+                                            </div>
                                         </div>
-                                        <div class="review_user col-sm-10">
-                                            <div class="font-weight-bold">{{ review.author }}</div>
-                                            <div class="text-muted">{{ review.date_uploaded }}</div>
+                                        <div>
+                                            <p class="mb-0">{{ review.comment }}</p>
                                         </div>
                                     </div>
-                                    <div class="review_body">
-                                        <p class="mb-0">{{ review.comment }}</p>
-                                    </div>
-                                </div>
-                            </li>
-                        </ol>
+                                </li>
+                            </ol>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% else %}
+                    <div class="col-sm-6">
+                        <div class="body">
+                            <ol class="list-unstyled">
+                                <li>
+                                    <div class="card-style">
+                                        <div class="row">
+                                            <div class="review-grade col-sm-2">
+                                                <div class="user-rating positive">{{ review.rating }}</div>
+                                            </div>
+                                            <div class="review-user col-sm-10">
+                                                <div class="font-weight-bold">{{ review.author }}</div>
+                                                <div class="text-muted">{{ review.date_uploaded }}</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0">{{ review.comment }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

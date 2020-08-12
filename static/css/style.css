@@ -166,11 +166,11 @@ body {
 }
 
 /* ##User Review Section */
-.review_grade {
+.review-grade {
     display: inline;
 }
 
-.review_sctn{
+.card-style{
     background: white;
     border-radius: 15px;
     border-width: 2px;
@@ -179,7 +179,7 @@ body {
     padding: 10px;
 }
 
-.user_rating {
+.user-rating {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     background-color: transparent;
@@ -192,6 +192,7 @@ body {
     font-weight: bold;
     border-radius: 55%;
 }
-.user_rating.positive{
+.user-rating.positive{
     background-color: rgb(102, 204, 51);
 }
+

@@ -1,7 +1,9 @@
 import os
-from flask import Flask, render_template, request, flash
+from datetime import datetime, date
+from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+from forms import SubmitReviewForm
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 if os.path.exists(__location__+"\\env.py"):
@@ -47,11 +49,39 @@ def movie_listings():
     movie_posts = calculateMediaRating("movies")
     return render_template("listings.html", posts = movie_posts, category="Movies")
 
-@app.route("/games/<media>")
+@app.route("/games/<media>", methods=["GET", "POST"])
 def game_media(media):
     mongo = PyMongo(app)
     game = mongo.db.games.find_one({'name': media})
-    return render_template("media.html", media = game, category="Games")
+    
+    form = SubmitReviewForm()
+    if form.validate_on_submit():
+        flash("Review has been successfully submitted", "success")
+        mongo = PyMongo(app)
+        
+        mongo.db["games"].update_one(
+            {'name': media},
+            {
+                '$push':
+                {
+                    'review': 
+                    {
+                        "id": ObjectId(),
+                        "author": form.name.data,
+                        "comment": form.comment.data,
+                        "rating": form.rating.data,
+                        "date_uploaded": datetime.now()
+                    }
+                }
+            })
+
+    return render_template("media.html", media = game, category="Games", form=form)
+
+# @app.route("/games/<media>/submit-review")
+# def review(media):
+#     form = SubmitReviewForm()
+#     return render_template("review.html", media = game, form=form)
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"), port=os.environ.get("PORT"), debug=True)

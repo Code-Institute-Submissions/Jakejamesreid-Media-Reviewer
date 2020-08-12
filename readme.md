@@ -106,6 +106,8 @@ I used the following websites for reseach:
 * https://bootstrapious.com/snippets
 * https://speckyboy.com/css-content-cards/
 * https://bootstrapious.com/p/circular-progress-bar
+* https://getbootstrap.com/docs/4.0/components/collapse/
+* https://www.youtube.com/watch?v=UIJKdCIEXUQ
 
 Data for films was taken from:
 https://www.imdb.com/
