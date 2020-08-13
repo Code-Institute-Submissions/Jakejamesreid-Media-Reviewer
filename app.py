@@ -28,7 +28,7 @@ def calculateMediaRating(collection):
         for rating in media['review']:
             overall_rating+=rating['rating']
         media['overall_rating'] = overall_rating/len(media['review'])
-        mongo.db[collection].update_one({'name': media['name']},{'$set':{'overall_rating': media['overall_rating']}})
+        mongo.db[collection].update_one({'name': media['name']},{'$set':{'overall_rating': int(media['overall_rating'])}})
 
     return media_posts
 
