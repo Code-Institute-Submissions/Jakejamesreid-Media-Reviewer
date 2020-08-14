@@ -14,23 +14,7 @@ app.secret_key = os.environ.get("SECRET")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 app.config['DEBUG'] = True
 
-def calculateMediaRating(collection):
-    """Return media posts for the gicen collection
-
-    :param string collection: The name of the databases collection
-    :return: List of media posts
-    :rtype: list
-    """
-    mongo = PyMongo(app)
-    media_posts = list(mongo.db[collection].find())
-    for media in media_posts:
-        overall_rating = 0
-        for rating in media['review']:
-            overall_rating+=rating['rating']
-        media['overall_rating'] = overall_rating/len(media['review'])
-        mongo.db[collection].update_one({'name': media['name']},{'$set':{'overall_rating': int(media['overall_rating'])}})
-
-    return media_posts
+mongo = PyMongo(app)
 
 @app.route("/")
 def index():
@@ -39,43 +23,61 @@ def index():
 @app.route("/game-listings")
 def game_listings():
 
+    game_posts = list(mongo.db.games.find())
     # Determine the average user rating for each game
-    game_posts = calculateMediaRating("games")
+    game_posts_with_rating = calculateMediaRating(game_posts)
 
-    return render_template("listings.html", posts = game_posts, category="Games")
+    return render_template("listings.html", posts = game_posts_with_rating, category="Games")
 
 @app.route("/movie-listings")
 def movie_listings():
-    movie_posts = calculateMediaRating("movies")
-    return render_template("listings.html", posts = movie_posts, category="Movies")
+    movie_posts = list(mongo.db.movies.find())
+    movie_posts_with_rating = calculateMediaRating(movie_posts)
+    return render_template("listings.html", posts = movie_posts_with_rating, category="Movies")
 
 @app.route("/games/<media>", methods=["GET", "POST"])
 def game_media(media):
-    mongo = PyMongo(app)
     game = mongo.db.games.find_one({'name': media})
-    
     form = SubmitReviewForm()
-    if form.validate_on_submit():
-        flash("Review has been successfully submitted", "success")
-        mongo = PyMongo(app)
-        
-        mongo.db["games"].update_one(
-            {'name': media},
-            {
-                '$push':
-                {
-                    'review': 
-                    {
-                        "id": ObjectId(),
-                        "author": form.name.data,
-                        "comment": form.comment.data,
-                        "rating": form.rating.data,
-                        "date_uploaded": datetime.now()
-                    }
-                }
-            })
+    game_with_rating = calculateMediaRating([game])
 
-    return render_template("media.html", media = game, category="Games", form=form)
+    if form.validate_on_submit():
+        mongo.db["games"].update_one(
+          {'name': media},
+          {
+              '$push':
+              {
+                  'review': 
+                  {
+                      "id": ObjectId(),
+                      "author": form.name.data,
+                      "comment": form.comment.data,
+                      "rating": form.rating.data,
+                      "date_uploaded": datetime.now()
+                  }
+              }
+        })
+        game = mongo.db.games.find_one({'name': media})
+        game_with_rating = calculateMediaRating([game])
+        flash("Review has been successfully submitted", "success")
+        return redirect(url_for('game_media', media=game_with_rating[0]['name']))
+
+    return render_template("media.html", media = game_with_rating[0], category="Games", form=form)
+
+def calculateMediaRating(media_posts):
+    """Return media posts for the given collection
+
+    :param string collection: The name of the databases collection
+    :return: List of media posts
+    :rtype: list
+    """
+    for media in media_posts:
+        overall_rating = 0
+        for rating in media['review']:
+            overall_rating+=rating['rating']
+        media['overall_rating'] = int(overall_rating/len(media['review']))
+
+    return media_posts
 
 # @app.route("/games/<media>/submit-review")
 # def review(media):

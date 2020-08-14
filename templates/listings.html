@@ -10,7 +10,7 @@
 {% block content %}
     {% for post in posts %}
         <article class="media content-section shadow">
-            <img class="article-img mr-3" src="{{ url_for('static', filename='img/placeholder.png') }}" alt="Generic placeholder image">
+            <img class="article-img mr-3" src="{{ post.image_url }}" alt="Generic placeholder image">
             <div class="media-body">
                 <div class="article-header-metadata">
                     <a class="mr-2">{{ post.media_category }}</a>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating }}'>
+            <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating*10 }}'>
                 <span class="progress-left">
                     <span class="progress-bar border-primary"></span>
                 </span>
@@ -30,7 +30,7 @@
                     <span class="progress-bar border-primary"></span>
                 </span>
                 <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                    <div class="h2 font-weight-bold">{{ post.overall_rating }}<small>%</small></div>
+                    <div class="h2 font-weight-bold">{{ post.overall_rating }}</div>
                 </div>
             </div>
         </article>

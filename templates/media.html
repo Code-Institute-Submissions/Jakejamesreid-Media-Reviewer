@@ -74,8 +74,8 @@
             <div class="col-sm-12 pb-4">
                 <div class="collapse" id="submit-review">
                     <div class="card-style">
-                        <form action="" method="post">
-                            {{ form.hidden_tag() }}
+                        <form action="{{ url_for('game_media', media=media.name) }}" method="post">
+                            {{ form.csrf_token }}
                             <fieldset class="form-group">
                                 <legend class="border-bottom mb-4">Submit Review</legend>
                                 <div class="form-group">
@@ -128,57 +128,31 @@
                     </div>
                 </div>
             </div>
-            {% for review in media.review %}
-                {% if loop.index0 % 2 == 0 %}
-                <!-- TODO: Fix spacing issue between reviews -->
-                    <div class="col-sm-6">
-                        <!-- TODO: See if this can be put into a template -->
-                        <div>
-                            <ol class="list-unstyled">
-                                <li>
-                                    <div class="card-style">
-                                        <div class="row">
-                                            <div class="review-grade col-sm-2">
-                                                <div class="user-rating positive">{{ review.rating }}</div>
-                                            </div>
-                                            <div class="review-user col-sm-10">
-                                                <div class="font-weight-bold">{{ review.author }}</div>
-                                                <div class="text-muted">{{ review.date_uploaded }}</div>
-                                            </div>
+            <div class="col-sm-12">
+                {% for review in media.review %}
+                    <!-- TODO: See if this can be put into a template -->
+                    <div>
+                        <ol class="list-unstyled">
+                            <li>
+                                <div class="card-style">
+                                    <div class="row">
+                                        <div class="review-grade col-sm-1">
+                                            <div class="user-rating positive">{{ review.rating }}</div>
                                         </div>
-                                        <div>
-                                            <p class="mb-0">{{ review.comment }}</p>
+                                        <div class="review-user col-sm-11">
+                                            <div class="font-weight-bold">{{ review.author }}</div>
+                                            <div class="text-muted">{{ review.date_uploaded }}</div>
                                         </div>
                                     </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-sm-6">
-                        <div class="body">
-                            <ol class="list-unstyled">
-                                <li>
-                                    <div class="card-style">
-                                        <div class="row">
-                                            <div class="review-grade col-sm-2">
-                                                <div class="user-rating positive">{{ review.rating }}</div>
-                                            </div>
-                                            <div class="review-user col-sm-10">
-                                                <div class="font-weight-bold">{{ review.author }}</div>
-                                                <div class="text-muted">{{ review.date_uploaded }}</div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="mb-0">{{ review.comment }}</p>
-                                        </div>
+                                    <div>
+                                        <p class="mb-0">{{ review.comment }}</p>
                                     </div>
-                                </li>
-                            </ol>
-                        </div>
+                                </div>
+                            </li>
+                        </ol>
                     </div>
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
