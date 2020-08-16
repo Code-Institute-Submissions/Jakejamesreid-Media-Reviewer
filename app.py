@@ -74,7 +74,7 @@ def calculateMediaRating(media_posts):
     for media in media_posts:
         overall_rating = 0
         for rating in media['review']:
-            overall_rating+=rating['rating']
+            overall_rating+=int(rating['rating'])
         media['overall_rating'] = int(overall_rating/len(media['review']))
 
     return media_posts

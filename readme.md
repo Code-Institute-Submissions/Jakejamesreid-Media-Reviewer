@@ -82,10 +82,18 @@ Below is a list if the specific user stories for this project.
 ### Open Issues
 The list below displays the current **open** issues with the project:
 
+1. If invalid range is specified for the rating field on the review form and the user hits submit, the page will reload and the user will have to scroll back down to the form to see the error message. Ideally the page would not reload
+
 ### Closed Issues
 
 The list below displays the current **closed** issues with the project:
- 
+
+1. Database displayed stale data after submitting a review. The solution was to make another call to read the database after updating it with new data.
+2. After submitting the review form thjere was an issue where when the page was refreshed the form would be submitted again. The solution for this was to add a redirect to the same page in the game_media route as opposed to using render_template. Redirecting allows the page to get a fresh state where as with render_template the browser was storing the state from the last request.
+3. A very unexpected error was that Jinja seems to read Jinja commands even when they are commented out. The following line was still being processed by Jinja in a HTML file. 
+"""
+<!-- {{ render_field(form.rating) }} -->
+"""
 ---
 
 ## Credits
@@ -108,6 +116,7 @@ I used the following websites for reseach:
 * https://bootstrapious.com/p/circular-progress-bar
 * https://getbootstrap.com/docs/4.0/components/collapse/
 * https://www.youtube.com/watch?v=UIJKdCIEXUQ
+* https://www.youtube.com/watch?v=J9O0v-iM0TE
 
 Data for films was taken from:
 https://www.imdb.com/

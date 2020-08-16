@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_render_field.html" import render_field %}
 
 {% block title %}
     {% if category %}
@@ -74,51 +75,22 @@
             <div class="col-sm-12 pb-4">
                 <div class="collapse" id="submit-review">
                     <div class="card-style">
-                        <form action="{{ url_for('game_media', media=media.name) }}" method="post">
+                        <form action="" method="POST">
                             {{ form.csrf_token }}
                             <fieldset class="form-group">
                                 <legend class="border-bottom mb-4">Submit Review</legend>
-                                <div class="form-group">
-                                    {{ form.name.label(class="form-control-label") }}
-                                    {% if form.name.errors %}
-                                        {{ form.name(class="form-control form-control-lg is-invalid") }}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.name.errors %}
-                                                <span>{{ error }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{ form.name(class="form-control form-control-lg") }}
-                                    {% endif %}
-
+                                <div class="row">
+                                    <div class="form-group col-sm-8">
+                                        {{ render_field(form.name) }}
+                                    </div>
+    
+                                    <div class="form-group col-sm-4">
+                                        {{ render_field(form.rating) }}
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
-                                    {{ form.rating.label(class="form-control-label") }}
-                                    {% if form.rating.errors %}
-                                        {{ form.rating(class="form-control form-control-lg is-invalid") }}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.rating.errors %}
-                                                <span>{{ error }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{ form.rating(class="form-control form-control-lg") }}
-                                    {% endif %}
-                                </div>
-                                
-                                <div class="form-group">
-                                    {{ form.comment.label(class="form-control-label") }}
-                                    {% if form.comment.errors %}
-                                        {{ form.comment(class="form-control form-control-lg is-invalid") }}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.name.errors %}
-                                                <span>{{ error }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{ form.comment(class="form-control form-control-lg") }}
-                                    {% endif %}
+                                    {{ render_field(form.comment) }}
                                 </div>
                             </fieldset>
                             <div class="form-group">
