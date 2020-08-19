@@ -8,10 +8,6 @@ body {
     color: #444444;
   }
 
-  .section{
-      padding-bottom: 20px;
-  }
-
 /* # Navigation Bar */
 #mainNav {
     border-bottom: 1px solid #e9ecef;
@@ -195,4 +191,21 @@ body {
 .user-rating.positive{
     background-color: rgb(102, 204, 51);
 }
+
+
+.rating-select{
+    border: 0;
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+
+
+
+
+
+
+
+
+
 
