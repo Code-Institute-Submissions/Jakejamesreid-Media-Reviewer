@@ -1,6 +1,131 @@
 {% extends "base.html" %}
 
+{% block title %}
+    <title>Media Reviewer</title>
+{% endblock title %}
+
 {% block content %}
-    <h1>Media Reviewer</h1>
-    <p>Welcome to the Media Review website</p>
+    <!-- Full Page Image Header with Vertically Centered Content -->
+    <header class="masthead">
+        <div class="container h-100">
+          <div class="row h-100 align-items-center">
+                <div class="col-12 text-center">
+                    <h1 id="home-heading">Media Reviewer</h1>
+                    <p id="home-sub-heading">The place to review all your media content</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container my-5" >
+        <div class="row">            
+            <div class="col-sm-12 mb-4 ">
+                <h2 class="text-center">Your all in one media review repository</h2>
+            </div>
+            <div class="card-deck text-center mx-auto">
+                <div class="col-sm-6">
+                    <div class="media-card card">
+                        <div>
+                            <img class="card-img-top" src="/static/img/placeholder.png" alt="">
+                            <div class="card-body">
+                                <h3 class="card-title" ><a href="#">Games</a></h3>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="media-card card">
+                        <div>
+                            <img class="card-img-top" src="/static/img/placeholder.png" alt="">
+                            <div class="card-body">
+                                <h3 class="card-title" ><a href="#">Movies</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Video Game Jumbotron -->
+<div class="card card-image jumbo-game-img">
+    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+        <div class="py-5">
+
+            <!-- Content -->
+            <h5 class="h5 orange-text"><i class="fas fa-gamepad"></i> Video Games</h5>
+            <h2 class="card-title h2 my-4 py-2">Latest Game Reviews</h2>
+            <div class="container border shadow my-5 card-style latest-media-container">
+                <div class="row my-5 mx-3">
+                    <div class="card-deck text-center mx-auto">
+                        {% for game in game_posts %}
+                        <div class="col-sm-3">
+                            <div class="media-card ">
+                                <div>
+                                    <img class="card-img-top latest-media-img" src="{{ game.image_url }}" alt="">
+                                    <div class="card-body">
+                                        <h3 class="card-media-title"><a class="text-decoration-none"
+                                                href="{{ url_for('game_media', media=game.name) }}">{{game.name}}</a>
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn peach-gradient" href="{{ url_for('game_listings') }}"><i class="fas fa-clone left"></i> View Game Listings</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Video Game Jumbotron -->
+
+<!-- Movie Jumbotron -->
+<div class="card card-image jumbo-movie-img">
+    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+        <div class="py-5">
+
+            <!-- Content -->
+            <h5 class="h5 orange-text"><i class="fas fa-film"></i> Movies</h5>
+            <h2 class="card-title h2 my-4 py-2">Latest Movie Reviews</h2>
+            <div class="container border shadow my-5 card-style latest-media-container">
+                <div class="row my-5 mx-3">
+                    <div class="card-deck text-center mx-auto">
+                        {% for movie in movie_posts %}
+                        <div class="col-sm-3">
+                            <div class="media-card ">
+                                <div>
+                                    <img class="card-img-top latest-media-img" src="{{ movie.image_url }}" alt="">
+                                    <div class="card-body">
+                                        <h3 class="card-media-title"><a class="text-decoration-none"
+                                                href="{{ url_for('movie_media', media=movie.name) }}">{{movie.name}}</a>
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn peach-gradient" href="{{ url_for('movie_listings') }}"><i class="fas fa-clone left"></i> Movie Listings</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Movie Jumbotron -->
+
+
+
+
+
 {% endblock %}

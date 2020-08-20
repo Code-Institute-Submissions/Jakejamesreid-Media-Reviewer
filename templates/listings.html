@@ -9,58 +9,64 @@
 {% endblock title %}
 
 {% block content %}
-    <div class = "container">
-        <form action="" method="POST" id="sort-form">
-            {{ rating_form.csrf_token }}
-            <div class="row">
-                <div class="d-inline mr-4">
-                    <fieldset class="mt-auto">
-                        <div class="form-group">
-                            {{ rating_form.rating(class="form-control form-control-lg rating-select") }}
+<div class="container">
+    <div class="row">
+        <div id="content">
+            <div class = "container">
+                <form action="" method="POST" id="sort-form">
+                    {{ rating_form.csrf_token }}
+                    <div class="row">
+                        <div class="d-inline mr-4">
+                            <fieldset class="mt-auto">
+                                <div class="form-group">
+                                    {{ rating_form.rating(class="form-control form-control-lg rating-select") }}
+                                </div>
+                                
+                            </fieldset>
                         </div>
-                        
-                    </fieldset>
-                </div>
-                <div class="d-inline align-bottom mt-auto">
-                    <div class="form-group">
-                        {{ rating_form.submit(class="btn btn-primary") }}
+                        <div class="d-inline align-bottom mt-auto">
+                            <div class="form-group">
+                                {{ rating_form.submit(class="btn btn-primary") }}
+                            </div>
+                        </div>
+
+
                     </div>
-                </div>
-
-
+                </form>
             </div>
-        </form>
+
+            {% for post in posts %}
+                <article class="media content-section shadow">
+                    <img class="article-img mr-3" src="{{ post.image_url }}" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <div class="article-header-metadata">
+                            <a class="mr-2">{{ post.media_category }}</a>
+                        </div>
+                        {% if category == "Games" %}
+                            <h2 class="article-title"><a href="{{ url_for('game_media', media=post.name) }}">{{ post.name }}</a></h2>
+                        {% elif category == "Movies" %}
+                            <h2 class="article-title"><a href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
+                        {% endif %}
+                        <div class="article-footer-metadata">
+                            <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date_uploaded }}</a> </span>
+                            <a href="#"><i class="far fa-thumbs-up mr-1" ></i></a><small class="text-muted">{{ post.likes }}</small>
+                        </div>
+                    </div>
+
+                    <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating*10 }}'>
+                        <span class="progress-left">
+                            <span class="progress-bar border-primary"></span>
+                        </span>
+                        <span class="progress-right">
+                            <span class="progress-bar border-primary"></span>
+                        </span>
+                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="h2 font-weight-bold">{{ post.overall_rating }}</div>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-
-    {% for post in posts %}
-        <article class="media content-section shadow">
-            <img class="article-img mr-3" src="{{ post.image_url }}" alt="Generic placeholder image">
-            <div class="media-body">
-                <div class="article-header-metadata">
-                    <a class="mr-2">{{ post.media_category }}</a>
-                </div>
-                {% if category == "Games" %}
-                    <h2 class="article-title"><a href="{{ url_for('game_media', media=post.name) }}">{{ post.name }}</a></h2>
-                {% elif category == "Movies" %}
-                    <h2 class="article-title"><a href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
-                {% endif %}
-                <div class="article-footer-metadata">
-                    <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date_uploaded }}</a> </span>
-                    <a href="#"><i class="far fa-thumbs-up mr-1" ></i></a><small class="text-muted">{{ post.likes }}</small>
-                </div>
-            </div>
-
-            <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating*10 }}'>
-                <span class="progress-left">
-                    <span class="progress-bar border-primary"></span>
-                </span>
-                <span class="progress-right">
-                    <span class="progress-bar border-primary"></span>
-                </span>
-                <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                    <div class="h2 font-weight-bold">{{ post.overall_rating }}</div>
-                </div>
-            </div>
-        </article>
-    {% endfor %}
 {% endblock %}

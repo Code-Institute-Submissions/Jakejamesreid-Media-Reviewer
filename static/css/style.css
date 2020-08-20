@@ -4,9 +4,9 @@ body {
     margin-top: 5rem;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  /* h1, h2, h3, h4, h5, h6 {
     color: #444444;
-  }
+  } */
 
 /* # Navigation Bar */
 #mainNav {
@@ -40,6 +40,98 @@ body {
 /* # Content */
 #content{
     width: 100%;
+}
+
+
+/* # Homepage */
+.masthead {
+    position: relative; 
+    height: 70vh;
+    min-height: 500px;
+    background-image: url('/static/img/heap-of-retro-tv-sets-with-no-signal-communication.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: -5rem;
+    color: white;
+}
+.masthead::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.25);
+}
+
+#home-heading {
+    position: relative;
+    color: #ffffff;  
+    font-size: 5rem;
+    font-weight: bolder;
+    text-shadow: black;
+    line-height: 0.9;
+    text-align: center;
+}
+
+#home-sub-heading {
+    position: relative;
+    color: #ffffff;  
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: black;
+    line-height: 0.9;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.media-card{
+    width: 13rem;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+    border: 0;
+    background: rgba(0,0,0,0);
+}
+
+.jumbo-game-img{
+    background-image: url(https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.jumbo-movie-img{
+    background-image: url('/static/img/movie-or-film-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.latest-media-container{
+    background: rgba(0,0,0,.4);
+}
+
+.card-media-title,
+a{
+    font-size: 1.1em;
+    color: black;
+}
+
+.recents-btn{
+    background: linear-gradient(40deg,#45cafc,#303f9f);
+    transition: transform .1s;
+    border: black;
+}
+
+.recents-btn:hover{
+    transform: scale(1.1);
+}
+
+.latest-media-img{
+    width: 205px;
+    height: 260px;
 }
 
 /* # Listings */
@@ -198,9 +290,6 @@ body {
     background-color: #f8f9fa;
     color: #007bff;
 }
-
-
-
 
 
 

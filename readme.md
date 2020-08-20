@@ -70,6 +70,7 @@ Below is a list if the specific user stories for this project.
 * [Heroku](https://heroku.com) - to host the project
 * [JQuery](https://jquery.com) - Used to simplify Javascript
 * [FontAwesome](https://fontawesome.com/) - Used for icons
+* [MD Bootstrap](https://mdbootstrap.com/md-bootstrap-cdn/) - Used for enhabced bootstrap designs
 ---
 
 
@@ -104,6 +105,8 @@ The data for this project was gotten from the following websites:
 
 ### Media
 The photos used in this site were obtained from:
+https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg
+https://mdbootstrap.com/docs/jquery/components/jumbotron/
 
 ### Acknowledgements
 I received inspiration for the design of the website from:
@@ -117,6 +120,10 @@ I used the following websites for reseach:
 * https://getbootstrap.com/docs/4.0/components/collapse/
 * https://www.youtube.com/watch?v=UIJKdCIEXUQ
 * https://www.youtube.com/watch?v=J9O0v-iM0TE
+* https://startbootstrap.com/snippets/full-image-header/
+
+Images:
+* https://elements.envato.com/heap-of-retro-tv-sets-with-no-signal-communication-PT4MC8R
 
 Data for films was taken from:
 https://www.imdb.com/
@@ -126,4 +133,5 @@ https://www.metacritic.com/
 
 All trailers were taken from:
 https://www.youtube.com/
+
 ### Attribution

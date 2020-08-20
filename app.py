@@ -18,33 +18,40 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    game_posts = list(mongo.db.games.find())
+    game_posts_with_rating = calculateMediaRating(game_posts)
+
+    movie_posts = list(mongo.db.movies.find())
+    movie_posts_with_rating = calculateMediaRating(movie_posts)
+
+    game_posts_with_rating = game_posts_with_rating[:4]
+    return render_template("index.html", game_posts = game_posts[:4], movie_posts = movie_posts[:4])
 
 @app.route("/game-listings", methods=["GET", "POST"])
 def game_listings():
 
     game_posts = list(mongo.db.games.find())
-    print('hello')
     rating_form = SortRating()
     # Determine the average user rating for each game
-    game_posts_with_rating = calculateMediaRatingAndSort(game_posts, rating_form)
+    game_posts_with_rating = calculateMediaRating(game_posts)
+    sorted_game_posts_with_rating = mediaSort(game_posts, rating_form)
 
-    return render_template("listings.html", posts = game_posts_with_rating, category="Games", rating_form=rating_form)
+    return render_template("listings.html", posts = sorted_game_posts_with_rating, category="Games", rating_form=rating_form)
 
 @app.route("/movie-listings",  methods=["GET", "POST"])
 def movie_listings():
     movie_posts = list(mongo.db.movies.find())
     rating_form = SortRating()
-    movie_posts_with_rating = calculateMediaRatingAndSort(movie_posts, rating_form)
-
+    movie_posts_with_rating = calculateMediaRating(movie_posts)
+    sorted_game_movie_with_rating = mediaSort(movie_posts, rating_form)
     
-    return render_template("listings.html", posts = movie_posts_with_rating, category="Movies", rating_form=rating_form)
+    return render_template("listings.html", posts = sorted_game_movie_with_rating, category="Movies", rating_form=rating_form)
 
 @app.route("/games/<media>", methods=["GET", "POST"])
 def game_media(media):
     game = mongo.db.games.find_one({'name': media})
     form = SubmitReviewForm()
-    game_with_rating = calculateMediaRatingAndSort([game], form)
+    game_with_rating = calculateMediaRating([game])
 
     if form.validate_on_submit():
         mongo.db["games"].update_one(
@@ -63,7 +70,7 @@ def game_media(media):
               }
         })
         game = mongo.db.games.find_one({'name': media})
-        game_with_rating = calculateMediaRatingAndSort([game], form)
+        game_with_rating = calculateMediaRating([game])
         flash("Review has been successfully submitted", "success")
         return redirect(url_for('game_media', media=game_with_rating[0]['name']))
 
@@ -73,7 +80,7 @@ def game_media(media):
 def movie_media(media):
     movie = mongo.db.movies.find_one({'name': media})
     form = SubmitReviewForm()
-    movie_with_rating = calculateMediaRatingAndSort([movie], form)
+    movie_with_rating = calculateMediaRating([movie])
 
     if form.validate_on_submit():
         mongo.db["movies"].update_one(
@@ -92,13 +99,13 @@ def movie_media(media):
               }
         })
         movie = mongo.db.games.find_one({'name': media})
-        movie_with_rating = calculateMediaRatingAndSort([movie], form)
+        movie_with_rating = calculateMediaRating([movie])
         flash("Review has been successfully submitted", "success")
         return redirect(url_for('movie_media', media=movie_with_rating[0]['name']))
 
     return render_template("media.html", media = movie_with_rating[0], category="Movies", form=form)
 
-def calculateMediaRatingAndSort(media_posts, form):
+def calculateMediaRating(media_posts):
     """Return media posts for the given collection
 
     :param string collection: The name of the databases collection
@@ -112,6 +119,16 @@ def calculateMediaRatingAndSort(media_posts, form):
         for rating in media['review']:
             overall_rating+=int(rating['rating'])
         media['overall_rating'] = int(overall_rating/len(media['review']))
+
+    return media_posts
+
+def mediaSort(media_posts, form):
+    """Return media posts for the given collection
+
+    :param string collection: The name of the databases collection
+    :return: List of media posts
+    :rtype: list
+    """
 
     # Sort posts by rating
     if form.validate_on_submit():
