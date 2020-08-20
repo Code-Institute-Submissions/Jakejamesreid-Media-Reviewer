@@ -52,7 +52,6 @@ def game_media(media):
     game = mongo.db.games.find_one({'name': media})
     form = SubmitReviewForm()
     game_with_rating = calculateMediaRating([game])
-
     if form.validate_on_submit():
         mongo.db["games"].update_one(
           {'name': media},
@@ -65,7 +64,7 @@ def game_media(media):
                       "author": form.name.data,
                       "comment": form.comment.data,
                       "rating": form.rating.data,
-                      "date_uploaded": datetime.now()
+                      "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                   }
               }
         })
@@ -117,8 +116,8 @@ def calculateMediaRating(media_posts):
     for media in media_posts:
         overall_rating = 0
         for rating in media['review']:
-            overall_rating+=int(rating['rating'])
-        media['overall_rating'] = int(overall_rating/len(media['review']))
+            overall_rating+=float(rating['rating'])
+        media['overall_rating'] =  round(overall_rating/len(media['review']), 1)
 
     return media_posts
 

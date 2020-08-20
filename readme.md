@@ -107,10 +107,13 @@ The data for this project was gotten from the following websites:
 The photos used in this site were obtained from:
 https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg
 https://mdbootstrap.com/docs/jquery/components/jumbotron/
+https://elements.envato.com/movie-or-film-background-J7FLNA8
 
 ### Acknowledgements
 I received inspiration for the design of the website from:
 https://www.metacritic.com/
+https://mdbootstrap.com/docs/jquery/navigation/footer/
+https://mdbootstrap.com/docs/jquery/components/jumbotron/
 
 I used the following websites for reseach:
 * https://getbootstrap.com/docs/4.0/layout/media-object/
