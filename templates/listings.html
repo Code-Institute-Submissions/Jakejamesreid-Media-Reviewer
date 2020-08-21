@@ -30,20 +30,20 @@
                             </div>
                         </div>
 
-
+                    
                     </div>
                 </form>
             </div>
 
             {% for post in posts %}
                 <article class="media content-section shadow">
-                    <img class="article-img mr-3" src="{{ post.image_url }}" alt="Generic placeholder image">
+                    <img class="article-img mr-3" src="{{ post.image_url }}">
                     <div class="media-body">
                         {% if category == "Games" %}
                         <div class="article-header-metadata">
                             <span class="mr-2">{{ post.media_category }}</span>
                         </div>
-                            <h2 class="article-title"><a href="{{ url_for('game_media', media=post.name) }}">{{ post.name }}</a></h2>
+                            <h2 class="article-title"><a href="{{ url_for('game_media', igdb_id=post.igdb_id) }}">{{ post.name }}</a></h2>
                         {% elif category == "Movies" %}
                         <div class="article-header-metadata">
                             {% for genre in post.genre %}
@@ -54,7 +54,6 @@
                         {% endif %}
                         <div class="article-footer-metadata">
                             <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date_uploaded }}</a> </span>
-                            <a href="#"><i class="far fa-thumbs-up mr-1" ></i></a><small class="text-muted">{{ post.likes }}</small>
                         </div>
                     </div>
 
