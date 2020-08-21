@@ -42,7 +42,7 @@ def calculate_ratings_for_media(media_posts):
 
     return media_posts
 
-def media_sort(media_posts, form):
+def media_sort(media_posts, form, category):
     """Return media posts for the given collection
 
     :param string collection: The name of the databases collection
@@ -51,10 +51,17 @@ def media_sort(media_posts, form):
     """
     # Sort posts by rating
     if form.validate_on_submit():
-        if form.rating.data == "1":
-            media_posts = sorted(media_posts, key=lambda k: k['overall_rating'], reverse=True) 
-        elif form.rating.data == "2":
-            media_posts = sorted(media_posts, key=lambda k: k['overall_rating']) 
+        if category == "Games":
+            if form.rating.data == "1":
+                media_posts = sorted(media_posts, key=lambda k: k['our_rating'], reverse=True) 
+            elif form.rating.data == "2":
+                media_posts = sorted(media_posts, key=lambda k: k['our_rating']) 
+        elif category == "Movies":
+            if form.rating.data == "1":
+                media_posts = sorted(media_posts, key=lambda k: k['overall_rating'], reverse=True) 
+            elif form.rating.data == "2":
+                media_posts = sorted(media_posts, key=lambda k: k['overall_rating']) 
+
     return media_posts
 
 def check_if_game_search_performed():
@@ -69,7 +76,6 @@ def check_if_game_search_performed():
             return False
         
 def search_IGDB(body):
-    print(body)
     gameRequest = requests.get('https://api-v3.igdb.com/games/', 
     headers={
         "user-key": IGDB_API
@@ -113,7 +119,7 @@ def add_new_game_to_DB(game):
 def refactor_game_data(games):
 
     game_posts = []
-    for game in games:
+    for index,game in enumerate(games):
         if "name" not in game.keys():
             game['name'] = "Unknown Title"
 
@@ -140,6 +146,25 @@ def refactor_game_data(games):
         else:
             game['rating'] = 0
 
+        if "summary" not in game.keys():
+            game['summary'] = "No overview available for this title."
+
+        if "genres" in game.keys():
+            game['genres'] = game['genres'][index]['name']
+        else:
+            game['genres'] = "N/A"
+
+        game['trailer'] = ""
+        if "videos" in game.keys():
+            game['trailer'] = game['videos'][0]['video_id']
+            for video in game['videos']:
+                if "Trailer" in video['name']:
+                    game['trailer'] = "https://www.youtube.com/embed/"+video['video_id']
+
+
+        else:
+            game['videos'] = "N/A"
+
         game_posts.append(
             {
                 "igdb_id": game['id'], 
@@ -147,7 +172,10 @@ def refactor_game_data(games):
                 "url": game['cover']['url'],
                 "release_date": game['first_release_date'],
                 "our_rating": game['rating'],
-                "platforms": ' '.join(game['supported_platforms'])
+                "platforms": ' '.join(game['supported_platforms']),
+                "summary": game['summary'],
+                "genre": game['genres'],
+                "trailer": game['trailer']
             }
         )
 

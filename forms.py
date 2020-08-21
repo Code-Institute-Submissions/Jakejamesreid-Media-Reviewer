@@ -10,7 +10,7 @@ class SubmitReviewForm(FlaskForm):
     submit = SubmitField('Submit Review')
 
 class SortRatingForm(FlaskForm):
-    rating = SelectField('Rating', choices=[(0, "Date Uploaded"), (1, "Rating Highest to Lowest"), (2, "Rating Lowest to Highest")], default=0)
+    rating = SelectField('Rating', choices=[(0, "Default"), (1, "Rating Highest to Lowest"), (2, "Rating Lowest to Highest")], default=0)
     submit = SubmitField('Sort Rating')
 
 class SearchMediaForm(FlaskForm):
