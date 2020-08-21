@@ -5,7 +5,8 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from forms import SubmitReviewForm, SortRatingForm, AddMediaForm
 import requests
-import env
+__location__ = os.path.realpath(
+    os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET")
