@@ -13,6 +13,6 @@ class SortRatingForm(FlaskForm):
     rating = SelectField('Rating', choices=[(0, "Date Uploaded"), (1, "Rating Highest to Lowest"), (2, "Rating Lowest to Highest")], default=0)
     submit = SubmitField('Sort Rating')
 
-class AddMediaForm(FlaskForm):
+class SearchMediaForm(FlaskForm):
     media_title = StringField('Media Title', validators=[DataRequired()])
     submit = SubmitField('Search')

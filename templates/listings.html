@@ -13,26 +13,42 @@
     <div class="row">
         <div id="content">
             <div class = "container">
-                <form action="" method="POST" id="sort-form">
-                    {{ rating_form.csrf_token }}
-                    <div class="row">
-                        <div class="d-inline mr-4">
-                            <fieldset class="mt-auto">
-                                <div class="form-group">
-                                    {{ rating_form.rating(class="form-control form-control-lg rating-select") }}
-                                </div>
-                                
-                            </fieldset>
-                        </div>
-                        <div class="d-inline align-bottom mt-auto">
-                            <div class="form-group">
-                                {{ rating_form.submit(class="btn btn-primary") }}
-                            </div>
-                        </div>
+                <div class="row">
 
-                    
+                    <div class="col-sm-6">
+                        <form action="" method="POST" id="sort-form">
+                            {{ rating_form.csrf_token }}
+                            <div class="row">
+                                <div class="d-inline mr-4">
+                                    <fieldset class="mt-auto">
+                                        <div class="form-group">
+                                            {{ rating_form.rating(class="form-control form-control-lg rating-select") }}
+                                        </div>
+                                        
+                                    </fieldset>
+                                </div>
+                                <div class="d-inline align-bottom mt-auto">
+                                    <div class="form-group">
+                                        {{ rating_form.submit(class="btn btn-primary") }}
+                                    </div>
+                                </div>
+        
+                            
+                            </div>
+                        </form>
                     </div>
-                </form>
+
+                    <div class="col-sm-6">
+                        <!-- Search form -->
+                        <form class="form-inline mx-auto" method="POST">
+                            <div class="md-form my-0">
+                                <input name="search" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                                <i class="fas fa-search text-white ml-3" aria-hidden="true"></i>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
             </div>
 
             {% for post in posts %}

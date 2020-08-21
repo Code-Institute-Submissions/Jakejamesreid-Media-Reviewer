@@ -73,6 +73,12 @@ The current solution only supports Video Games and Movies. This can be expanded 
 ### Dynamically changing colour for the Rating Bubble
 The current rating bubble only displays a green colour. If a user gave a score of < 4 then the colour should be red and if the rating was > 4 and < 7 the colour should be orange. Green wuld then only be used for ratings of 7 or higher.
 
+### User can edit or delete reviews
+Currently the user can only post a review. In a future update the user would also be able to edit or delete their reviews.
+
+### Implement API for movies
+Thye current implementation only has an API for searching video games and not for movies. A future update would be to add this functionality to movies as well.
+
 ---
 
 ## Project Planning
