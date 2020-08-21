@@ -12,6 +12,8 @@
 <div class="container py-5">
     <div class="row">
         <div id="content">
+
+
             <div class = "container">
                 <div class="row">
 
@@ -32,7 +34,6 @@
                                         {{ rating_form.submit(class="btn btn-primary") }}
                                     </div>
                                 </div>
-        
                             
                             </div>
                         </form>
@@ -51,41 +52,74 @@
                 </div>
             </div>
 
-            {% for post in posts %}
-                <article class="media content-section shadow">
-                    <img class="article-img mr-3" src="{{ post.image_url }}">
-                    <div class="media-body">
-                        {% if category == "Games" %}
-                        <div class="article-header-metadata">
-                            <span class="mr-2">{{ post.media_category }}</span>
-                        </div>
+            <!-- Game Card -->
+            {% if category == "Games" %}
+                {% for post in posts %}
+                    <article class="media content-section shadow">
+                        <img class="article-img mr-3" src="{{ post.url }}">
+                        <div class="media-body">
+                            <div class="article-header-metadata">
+                                <span class="mr-2"><strong>Platforms: </strong>  {{ post.platforms }}</span>
+                            </div>
                             <h2 class="article-title"><a href="{{ url_for('game_media', igdb_id=post.igdb_id) }}">{{ post.name }}</a></h2>
-                        {% elif category == "Movies" %}
-                        <div class="article-header-metadata">
-                            {% for genre in post.genre %}
-                                <span class="mr-2">{{ genre }}</span>
-                            {% endfor %}
+                            <div class="article-footer-metadata">
+                                <span><strong>Release Date: </strong><a class="mr-4">{{ post.release_date }}</a> </span>
+                            </div>
                         </div>
-                            <h2 class="article-title"><a href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
-                        {% endif %}
-                        <div class="article-footer-metadata">
-                            <span><strong>Uploaded: </strong><a class="mr-4">{{ post.date_uploaded }}</a> </span>
-                        </div>
-                    </div>
 
-                    <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating*10 }}'>
-                        <span class="progress-left">
-                            <span class="progress-bar border-primary"></span>
-                        </span>
-                        <span class="progress-right">
-                            <span class="progress-bar border-primary"></span>
-                        </span>
-                        <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-                            <div class="h2 font-weight-bold">{{ post.overall_rating }}</div>
+
+                        <div class="progress mx-auto my-auto" data-value='{{ post.our_rating }}'>
+                            <span class="progress-left">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                {% if post.our_rating > 0 %}
+                                <div class="h2 font-weight-bold">{{ post.our_rating }}</div>
+                                {% else %}
+                                <div class="h2 font-weight-bold">N/A</div>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                </article>
+                        
+                    </article>
                 {% endfor %}
+            {% endif %}
+
+            <!-- Game Card -->
+            {% if category == "Movies" %}
+                {% for post in posts %}
+                    <article class="media content-section shadow">
+                        <img class="article-img mr-3" src="{{ post.image_url }}">
+                        <div class="media-body">
+                            <div class="article-header-metadata">
+                                {% for genre in post.genre %}
+                                <span class="mr-2">{{ genre }}</span>
+                                {% endfor %}
+                            </div>
+                            <h2 class="article-title"><a href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
+                            <div class="article-footer-metadata">
+                                <span><strong>Release Date: </strong><a class="mr-4">{{ post.release_date }}</a> </span>
+                            </div>
+                        </div>
+
+                        <div class="progress mx-auto my-auto" data-value='{{ post.overall_rating }}'>
+                            <span class="progress-left">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar border-primary"></span>
+                            </span>
+                            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="h2 font-weight-bold">{{ post.overall_rating }}</div>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+
             </div>
         </div>
     </div>

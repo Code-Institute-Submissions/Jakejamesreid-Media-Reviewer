@@ -1,6 +1,6 @@
 import os
 import requests
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
@@ -68,15 +68,13 @@ def check_if_game_search_performed():
         else:
             return False
         
-def search_IGDB(name):
-    print(name)
+def search_IGDB(body):
+    print(body)
     gameRequest = requests.get('https://api-v3.igdb.com/games/', 
     headers={
         "user-key": IGDB_API
     },
-    data=f"""fields name,cover.url,first_release_date;
-                    search "{name}";
-                    limit 20;""")
+    data=body)
     gameResults = gameRequest.json()
     return gameResults
 
@@ -111,3 +109,46 @@ def add_new_game_to_DB(game):
         'overall_rating': game['name'],
         }
         )
+
+def refactor_game_data(games):
+
+    game_posts = []
+    for game in games:
+        if "name" not in game.keys():
+            game['name'] = "Unknown Title"
+
+        if "cover" in game.keys():
+            game['cover']['url'].replace("t_thumb", "t_cover_big")
+        else:
+            game['cover'] = {'url':'static/img/placeholder.png'}
+
+        if "first_release_date" in game.keys():
+            game['first_release_date'] = datetime.fromtimestamp((game['first_release_date'])).strftime('%Y-%b-%d')
+        else:
+            game['first_release_date'] = "Unknown"
+        
+        game['supported_platforms'] = []
+        if "platforms" in game.keys():
+            for platform in game['platforms']:
+                if "abbreviation" in platform.keys():
+                    game['supported_platforms'].append(platform['abbreviation'])
+        else:
+            game['supported_platforms'] = "Platforms Unknown"
+
+        if "rating" in game.keys():
+            game['rating'] = int(game['rating'])
+        else:
+            game['rating'] = 0
+
+        game_posts.append(
+            {
+                "igdb_id": game['id'], 
+                "name": game['name'], 
+                "url": game['cover']['url'],
+                "release_date": game['first_release_date'],
+                "our_rating": game['rating'],
+                "platforms": ' '.join(game['supported_platforms'])
+            }
+        )
+
+    return game_posts
