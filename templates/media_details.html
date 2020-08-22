@@ -2,7 +2,7 @@
 {% from "_render_field.html" import render_field %}
 
 {% block title %}
-    <title>{{ media.name }}</title>
+<title>{{ media.name }}</title>
 {% endblock title %}
 
 {% block content %}
@@ -12,15 +12,15 @@
 
             <!-- Alert Message -->
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
             {% endwith %}
-            
+
             <!-- Title -->
             <div class="container title pb-4">
                 <div class="row align-items-center d-flex justify-content-center">
@@ -47,23 +47,23 @@
                     <div class="col-sm-12">
                         <hr>
                         {% if category == "Games" %}
-                        <h5>Genre: <span class="text-muted">{{ media.genre }}</span> &emsp; 
+                        <h5>Genre: <span class="text-muted">{{ media.genre }}</span> &emsp;
                             Release Date: <span class="text-muted">{{ media.release_date }}</span> &emsp;
                             Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp;
                             {% if media.user_rating %}
                             User Rating: <span class="text-muted">{{ media.user_rating }}</span>
                             {% else %}
                             User Rating: <span class="text-muted">N/A</span>
-                            {% endif %}  
+                            {% endif %}
                         </h5>
                         {% elif category == "Movies" %}
-                        <h5>Running Time: <span class="text-muted">{{ media.running_time }}</span> &emsp; 
-                            Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp; 
+                        <h5>Running Time: <span class="text-muted">{{ media.running_time }}</span> &emsp;
+                            Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp;
                             {% if media.user_rating %}
                             User Rating: <span class="text-muted">{{ media.user_rating }}</span>
                             {% else %}
                             User Rating: <span class="text-muted">N/A</span>
-                            {% endif %} 
+                            {% endif %}
                         </h5>
                         {% endif %}
                         <hr>
@@ -80,7 +80,7 @@
                         <p>{{ media.summary }}</p>
                         {% elif category == "Movies" %}
                         <p>{{ media.description }}</p>
-                        {% endif %} 
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -89,10 +89,12 @@
             <!-- User Reviews -->
             <div class="container">
                 <div class="row">
+
                     <!-- Heading -->
                     <div class="col-sm-6 align-items-center d-flex">
                         <h2 class="module_title">User Reviews</h2>
                     </div>
+
                     <!-- Submit Review Button -->
                     <div class="review-btn col-sm-6">
                         <p>
@@ -102,15 +104,19 @@
                         </p>
                     </div>
 
-                    <!-- Collapsable Submit Reviw Form -->
+                    <!-- Collapsable Submit Review Form -->
                     <div class="col-sm-12 pb-2">
                         <div class="collapse" id="submit-review">
                             <div class="card-style">
+
+                                <!-- Review Form -->
                                 <form action="" method="POST">
                                     {{ form.csrf_token }}
                                     <fieldset class="form-group">
+
                                         <!-- Legend -->
                                         <legend class="border-bottom mb-4">Submit Review</legend>
+
                                         <!-- Name and Rating -->
                                         <div class="row">
                                             <div class="form-group col-sm-8">
@@ -120,11 +126,13 @@
                                                 {{ render_field(form.rating) }}
                                             </div>
                                         </div>
+
                                         <!-- Comment -->
                                         <div class="form-group">
                                             {{ render_field(form.comment) }}
                                         </div>
                                     </fieldset>
+
                                     <!-- Submit Button -->
                                     <div class="form-group">
                                         {{ form.submit(class="btn text-white reverse-peach-gradient rounded") }}
@@ -133,19 +141,24 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Collapsable Submit Reviw Form -->
+                    <!-- End Collapsable Submit Review Form -->
 
                     <!-- User Review Card -->
+                    {% for review in media.reviews %}
                     <div class="col-sm-12">
-                        {% for review in media.reviews %}
                         <ol class="list-unstyled">
                             <li>
+                                <!-- Card -->
                                 <div class="card-style px-4 py-4">
                                     <div class="row">
+
+                                        <!-- User Name and Date -->
                                         <div class="review-user col-sm-11 mb-2">
                                             <div class="font-weight-bold">{{ review.author }}</div>
                                             <div class="text-muted">{{ review.date_uploaded }}</div>
                                         </div>
+
+                                        <!-- User Rating -->
                                         <div class="review-grade col-sm-1">
                                             <div class="user-rating positive">{{ review.rating }}</div>
                                         </div>
@@ -156,8 +169,8 @@
                                 </div>
                             </li>
                         </ol>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                     <!-- End User Review Card -->
                 </div>
             </div>

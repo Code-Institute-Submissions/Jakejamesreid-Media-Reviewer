@@ -16,12 +16,13 @@ def index():
     movie_posts = list(mongo.db.movies.find())
     return render_template("index.html", game_posts=popular_games_refactored, movie_posts=movie_posts[:4])
 
+
 @app.route("/game-listings", methods=["GET", "POST"])
 def game_listings():
 
     # Check if user searched for a game
     if request.method == 'POST':
-        game_searched_by_user  = request.form.get('search')
+        game_searched_by_user = request.form.get('search')
         if game_searched_by_user:
             search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
                     search "{game_searched_by_user}";
@@ -32,10 +33,12 @@ def game_listings():
 
                 # Sort posts by rating
                 sort_by_rating_form = SortRatingForm()
-                sorted_game_posts = media_sort(IGDB_games, sort_by_rating_form, "Games")
-                return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=sort_by_rating_form)
+                sorted_game_posts = media_sort(
+                    IGDB_games, sort_by_rating_form, "Games")
+                return render_template("listings.html", posts=sorted_game_posts, category="Games", rating_form=sort_by_rating_form)
 
-    one_year_ago = int((datetime.now() - timedelta(days=365) - datetime(1970,1,1)).total_seconds())
+    one_year_ago = int((datetime.now() - timedelta(days=365) -
+                        datetime(1970, 1, 1)).total_seconds())
     search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
     where first_release_date > {one_year_ago};
     sort popularity desc;
@@ -49,7 +52,7 @@ def game_listings():
     sort_by_rating_form = SortRatingForm()
     sorted_game_posts = media_sort(game_posts, sort_by_rating_form, "Games")
 
-    return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=sort_by_rating_form)
+    return render_template("listings.html", posts=sorted_game_posts, category="Games", rating_form=sort_by_rating_form)
 
 
 @app.route("/movie-listings",  methods=["GET", "POST"])
@@ -57,9 +60,10 @@ def movie_listings():
     media_posts = list(mongo.db.movies.find())
     rating_form = SortRatingForm()
     sorted_movies = media_sort(media_posts, rating_form, "Movies")
-    
-    return render_template("listings.html", posts = sorted_movies, category="Movies", rating_form=rating_form)
-    
+
+    return render_template("listings.html", posts=sorted_movies, category="Movies", rating_form=rating_form)
+
+
 @app.route("/games/<igdb_id>", methods=["GET", "POST"])
 def game_media(igdb_id):
 
@@ -71,7 +75,8 @@ def game_media(igdb_id):
     IGDB_game_refactored = refactor_game_data(IGDB_game)[0]
 
     # Check for user review
-    user_reviews = mongo.db.games.find_one({'igdb_id': str(IGDB_game_refactored['igdb_id'])})
+    user_reviews = mongo.db.games.find_one(
+        {'igdb_id': str(IGDB_game_refactored['igdb_id'])})
 
     if user_reviews:
         user_reviews_with_rating = calculate_ratings_for_media(user_reviews)
@@ -81,26 +86,26 @@ def game_media(igdb_id):
 
         # Check if user submitted a review
         if userReviewForm.validate_on_submit():
-                # Update the database with user review
+            # Update the database with user review
             mongo.db.games.update_one(
-            {'igdb_id': igdb_id},
-            {
-                '$push':
+                {'igdb_id': igdb_id},
                 {
-                    'reviews': 
+                    '$push':
                     {
-                        "id": ObjectId(),
-                        "author": userReviewForm.name.data,
-                        "comment": userReviewForm.comment.data,
-                        "rating": userReviewForm.rating.data,
-                        "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        'reviews':
+                        {
+                            "id": ObjectId(),
+                            "author": userReviewForm.name.data,
+                            "comment": userReviewForm.comment.data,
+                            "rating": userReviewForm.rating.data,
+                            "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        }
                     }
-                }
-            })
+                })
             flash("Review has been successfully submitted", "success")
             return redirect(url_for('game_media', igdb_id=igdb_id))
-        return render_template("media_details.html", media = IGDB_game_refactored, category="Games", form=userReviewForm)
-    
+        return render_template("media_details.html", media=IGDB_game_refactored, category="Games", form=userReviewForm)
+
     # If no reviews on page
     else:
         # Check if user submitted a review
@@ -110,18 +115,19 @@ def game_media(igdb_id):
                 {
                     'igdb_id': igdb_id,
                     'reviews': [
-                    {
-                        "id": ObjectId(),
-                        "author": userReviewForm.name.data,
-                        "comment": userReviewForm.comment.data,
-                        "rating": userReviewForm.rating.data,
-                        "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    }]
+                        {
+                            "id": ObjectId(),
+                            "author": userReviewForm.name.data,
+                            "comment": userReviewForm.comment.data,
+                            "rating": userReviewForm.rating.data,
+                            "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        }]
                 })
 
             flash("Review has been successfully submitted", "success")
             return redirect(url_for('game_media', igdb_id=igdb_id))
-        return render_template("media_details.html", media = IGDB_game_refactored, category="Games", form=userReviewForm)
+        return render_template("media_details.html", media=IGDB_game_refactored, category="Games", form=userReviewForm)
+
 
 @app.route("/movies/<media>", methods=["GET", "POST"])
 def movie_media(media):
@@ -131,25 +137,26 @@ def movie_media(media):
 
     if form.validate_on_submit():
         mongo.db.movies.update_one(
-          {'name': media},
-          {
-              '$push':
-              {
-                  'reviews': 
-                  {
-                      "id": ObjectId(),
-                      "author": form.name.data,
-                      "comment": form.comment.data,
-                      "rating": form.rating.data,
-                      "date_uploaded": datetime.now()
-                  }
-              }
-        })
-        
+            {'name': media},
+            {
+                '$push':
+                {
+                    'reviews':
+                    {
+                        "id": ObjectId(),
+                        "author": form.name.data,
+                        "comment": form.comment.data,
+                        "rating": form.rating.data,
+                        "date_uploaded": datetime.now()
+                    }
+                }
+            })
+
         flash("Review has been successfully submitted", "success")
         return redirect(url_for('movie_media', media=movie_with_rating['name']))
 
-    return render_template("media_details.html", media = movie_with_rating, category="Movies", form=form)
+    return render_template("media_details.html", media=movie_with_rating, category="Movies", form=form)
+
 
 if __name__ == "__main__":
     app.run(host=os.environ.get("IP"), port=os.environ.get("PORT"), debug=True)

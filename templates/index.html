@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>Media Reviewer</title>
+<title>Media Reviewer</title>
 {% endblock title %}
 
 {% block content %}
-<!-- Full Page Image Header with Vertically Centered Content -->
+<!-- Header -->
 <header class="masthead">
     <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -17,26 +17,48 @@
     </div>
 </header>
 
-<!-- Video Game Jumbotron -->
-<div class="card card-image jumbo-game-img">
-    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
-        <div class="py-5">
+
+{% for category in ['games', 'movies'] %}
+    {% if category == "games" %}
+    <!-- Jumbotron -->
+    <div class="card card-image jumbo-game-img">
+    {% elif category == "movies"%}
+    <div class="card card-image jumbo-movie-img">
+    {% endif %}
+        <div class="text-white text-center rgba-stylish-strong py-5 px-4">
 
             <!-- Content -->
-            <h5 class="h5 orange-text"><i class="fas fa-gamepad"></i> Video Games</h5>
-            <h2 class="card-title h2 my-4 py-2 text-white">Most Popular Games</h2>
-            <div class="container border shadow my-5 card-style latest-media-container">
-                <div class="row my-5 mx-3">
-                    <div class="card-deck text-center mx-auto">
-                        {% for game in game_posts %}
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="media-card ">
-                                <div>
+            <div class="py-5">
+                
+                {% if category == "games" %}
+                <!-- Titles -->
+                <h5 class="h5 orange-text"><i class="fas fa-gamepad"></i> Video Games</h5>
+                <h2 class="card-title h2 my-4 py-2 text-white">Most Popular Games</h2>
 
-                                    <a class="text-decoration-none text-body" href="{{ url_for('game_media', igdb_id=game.igdb_id) }}"> 
+                {% elif category == "movies"%}
+                <!-- Titles -->
+                <h5 class="h5 orange-text"><i class="fas fa-gamepad"></i> Movies</h5>
+                <h2 class="card-title h2 my-4 py-2 text-white">Latest Movies</h2>
+                {% endif %}
+
+                <!-- Card Container -->
+                <div class="container border shadow my-5 card-style latest-media-container">
+                    <div class="row my-5 mx-3">
+
+                        {% if category == "games" %}
+                        <!-- Card Deck -->
+                        <div class="card-deck text-center mx-auto">
+                            {% for game in game_posts %}
+
+                            <!-- Card -->
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="media-card ">
+                                    <!-- Image -->
+                                    <a class="text-decoration-none text-body"
+                                        href="{{ url_for('game_media', igdb_id=game.igdb_id) }}">
                                         <img class="card-img-top latest-media-img" src="{{ game.image_url }}" alt="">
                                     </a>
-                                   
+                                    <!-- Card title -->
                                     <div class="card-body">
                                         <h3 class="card-media-title"><a class="text-decoration-none text-body"
                                                 href="{{ url_for('game_media', igdb_id=game.igdb_id) }}">{{game.name}}</a>
@@ -44,38 +66,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-sm-12 text-center">
-                        <a class="btn peach-gradient" href="{{ url_for('game_listings') }}"><i class="fas fa-clone left"></i> View Game Listings</a>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-    </div>
-</div>
-<!-- Video Game Jumbotron -->
+                        <!-- Listings Button -->
+                        <div class="col-sm-12 text-center">
+                            <a class="btn peach-gradient" href="{{ url_for('game_listings') }}"><i
+                                    class="fas fa-clone left"></i> View Game Listings</a>
+                        </div>
+                        {% elif category == "movies"%}
+                        <!-- Card Deck -->
+                        <div class="card-deck text-center mx-auto">
 
-<!-- Movie Jumbotron -->
-<div class="card card-image jumbo-movie-img">
-    <div class="text-white text-center rgba-stylish-strong py-5 px-4">
-        <div class="py-5">
-
-            <!-- Content -->
-            <h5 class="h5 orange-text"><i class="fas fa-film"></i> Movies</h5>
-            <h2 class="card-title h2 my-4 py-2 text-white">Latest Movie Reviews</h2>
-            <div class="container border shadow my-5 card-style latest-media-container">
-                <div class="row my-5 mx-3">
-                    <div class="card-deck text-center mx-auto">
                         {% for movie in movie_posts %}
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="media-card ">
-                                <div>
-                                    <a class="text-decoration-none text-body" href="{{ url_for('movie_media', media=movie.name) }}">
+                            <!-- Card -->
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="media-card ">
+
+                                    <!-- Image -->
+                                    <a class="text-decoration-none text-body"
+                                        href="{{ url_for('movie_media', media=movie.name) }}">
                                         <img class="card-img-top latest-media-img" src="{{ movie.image_url }}" alt="">
-                                    </a>             
+                                    </a>
+
+                                    <!-- Card title -->
                                     <div class="card-body">
                                         <h3 class="card-media-title"><a class="text-decoration-none text-body"
                                                 href="{{ url_for('movie_media', media=movie.name) }}">{{movie.name}}</a>
@@ -83,22 +97,23 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-sm-12 text-center">
-                        <a class="btn peach-gradient" href="{{ url_for('movie_listings') }}"><i class="fas fa-clone left"></i> Movie Listings</a>
+        
+                        <!-- Listings Button -->
+                        <div class="col-sm-12 text-center">
+                            <a class="btn peach-gradient" href="{{ url_for('movie_listings') }}"><i
+                                    class="fas fa-clone left"></i> Movie Listings</a>
+                        </div>
+                        {% endif %} 
                     </div>
                 </div>
+                <!-- End Card Container -->
             </div>
-
+            <!-- End Content -->
         </div>
     </div>
-</div>
-<!-- Movie Jumbotron -->
-
-
-
-
+{% endfor %}
+<!-- End Video Game Jumbotron -->
 
 {% endblock %}

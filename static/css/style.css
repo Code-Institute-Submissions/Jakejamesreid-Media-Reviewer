@@ -5,11 +5,26 @@ body {
     font-family: Roboto,Helvetica,Arial,sans-serif;
 }
 
+/* # Content */
+#content{
+    width: 100%;
+}
 
 /* Colours */
+.orange-border{
+    border-color: orange;
+}
+.green-border{
+    border-color: green;
+}
+.red-border{
+    border-color: red;
+}
+.reverse-peach-gradient{
+    background: linear-gradient(40deg, #fc6262, #ffd86f) !important;
+}
 
 /* Fonts */
-
 h1,h2,h3,h4,h5,h6{
     color: rgb(37, 38, 39);
 }
@@ -19,18 +34,16 @@ h1,h2,h3,h4,h5,h6{
 
 }
 
-/* # Navigation Bar */
+/* Navigation Bar */
 #mainNav {
     border-bottom: 1px solid #e9ecef;
     background-color: white;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
 #mainNav .navbar-brand {
     font-weight: 800;
     color: #343a40;
 }
-
 #mainNav .navbar-toggler {
     font-size: 12px;
     font-weight: 800;
@@ -38,7 +51,6 @@ h1,h2,h3,h4,h5,h6{
     text-transform: uppercase;
     color: #343a40;
 }
-  
 #mainNav .navbar-nav > li.nav-item > a {
     font-size: 12px;
     font-weight: 800;
@@ -48,13 +60,10 @@ h1,h2,h3,h4,h5,h6{
     float: none;
 }
 
-/* # Content */
-#content{
-    width: 100%;
-}
 
+/* -----Homepage----- */
 
-/* # Homepage */
+/* Header Banner */
 .masthead {
     position: relative; 
     height: 70vh;
@@ -75,7 +84,6 @@ h1,h2,h3,h4,h5,h6{
     left: 0px;
     background-color: rgba(0,0,0,0.25);
 }
-
 #home-heading {
     position: relative;
     color: #ffffff;  
@@ -85,7 +93,6 @@ h1,h2,h3,h4,h5,h6{
     line-height: 0.9;
     text-align: center;
 }
-
 #home-sub-heading {
     position: relative;
     color: #ffffff;  
@@ -97,6 +104,22 @@ h1,h2,h3,h4,h5,h6{
     margin-top: 20px;
 }
 
+/* Jumbotron */
+.jumbo-game-img{
+    background-image: url(https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.jumbo-movie-img{
+    background-image: url('/static/img/movie-or-film-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.latest-media-container{
+    background: rgba(0,0,0,.4);
+}
 .media-card{
     width: 13rem;
     margin: 0 auto;
@@ -105,45 +128,17 @@ h1,h2,h3,h4,h5,h6{
     border: 0;
     background: rgba(0,0,0,0);
 }
-
-.jumbo-game-img{
-    background-image: url(https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.latest-media-img{
+    height: 260px;
 }
-
-.jumbo-movie-img{
-    background-image: url('/static/img/movie-or-film-background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.latest-media-container{
-    background: rgba(0,0,0,.4);
-}
-
 h3.card-media-title{
     font-size: 1.1em;
 }
 
-.recents-btn{
-    background: linear-gradient(40deg,#45cafc,#303f9f);
-    transition: transform .1s;
-    border: black;
-}
 
-.recents-btn:hover{
-    transform: scale(1.1);
-}
+/* -----Listings Page----- */
 
-.latest-media-img{
-    width: 205px;
-    height: 260px;
-}
-
-/* # Listings */
+/* Media Card */
 .content-section {
     background: #ffffff;
     padding: 10px 20px;
@@ -151,25 +146,20 @@ h3.card-media-title{
     border-radius: 3px;
     margin-bottom: 20px;
 }
-
 .article-img {
     height: 200px;
     margin-right: 16px;
 }
-  
 .article-header-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
     border-bottom: 1px solid #e3e3e3;
     color:#007bff;
 }
-    
-
 .article-title {
     margin-top: 40px;
     margin-bottom: 60px;
 }
-
 .article-title a{
     color: #444444;
 }
@@ -180,14 +170,13 @@ h3.card-media-title{
     position: relative;
 }
 
-/* ##Circular Progress Bar */
+/* Circular Progress Bar */
 .progress {
     width: 150px;
     height: 150px;
     background: none;
     position: relative;
 }
-
 .progress::after {
     content: "";
     width: 100%;
@@ -198,7 +187,6 @@ h3.card-media-title{
     top: 0;
     left: 0;
 }
-
 .progress>span {
     width: 50%;
     height: 100%;
@@ -207,11 +195,9 @@ h3.card-media-title{
     top: 0;
     z-index: 1;
 }
-
 .progress .progress-left {
     left: 0;
 }
-
 .progress .progress-bar {
     width: 100%;
     height: 100%;
@@ -221,7 +207,6 @@ h3.card-media-title{
     position: absolute;
     top: 0;
 }
-
 .progress .progress-left .progress-bar {
     left: 100%;
     border-top-right-radius: 80px;
@@ -230,11 +215,9 @@ h3.card-media-title{
     -webkit-transform-origin: center left;
     transform-origin: center left;
 }
-
 .progress .progress-right {
     right: 0;
 }
-
 .progress .progress-right .progress-bar {
     left: -100%;
     border-top-left-radius: 80px;
@@ -243,37 +226,16 @@ h3.card-media-title{
     -webkit-transform-origin: center right;
     transform-origin: center right;
 }
-
 .progress .progress-value {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-.orange-border{
-    border-color: orange;
-}
-.green-border{
-    border-color: green;
-}
-.red-border{
-    border-color: red;
-}
 
-.reverse-peach-gradient{
-    background: linear-gradient(40deg, #fc6262, #ffd86f) !important;
-}
+/* -----Media Details Page----- */
 
-/* #Media Page */
-.review-btn{
-    text-align: end;
-}
-
-/* ##User Review Section */
-.review-grade {
-    display: inline;
-}
-
+/* User Review Section */
 .card-style{
     background: white;
     border-radius: 15px;
@@ -282,7 +244,9 @@ h3.card-media-title{
     border-style: solid;
     padding: 10px;
 }
-
+.review-grade {
+    display: inline;
+}
 .user-rating {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
@@ -298,6 +262,9 @@ h3.card-media-title{
 }
 .user-rating.positive{
     background-color: rgb(102, 204, 51);
+}
+.review-btn{
+    text-align: end;
 }
 
 

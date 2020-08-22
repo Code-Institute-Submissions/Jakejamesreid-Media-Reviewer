@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    <title>{{ category }} Listings</title>
+<title>{{ category }} Listings</title>
 {% endblock title %}
 
 {% block content %}
@@ -20,13 +20,15 @@
             </div>
 
             <!-- Menu -->
-            <div class="container">  
+            <div class="container">
                 <div class="row">
+
                     <!-- Sorting Form -->
                     <div class="col-sm-7">
                         <form action="" method="POST" id="sort-form">
                             {{ rating_form.csrf_token }}
                             <div class="row">
+
                                 <!-- Dropdown -->
                                 <div class="d-inline mr-4">
                                     <fieldset class="">
@@ -35,12 +37,14 @@
                                         </div>
                                     </fieldset>
                                 </div>
+
                                 <!-- Button -->
                                 <div class="d-inline align-bottom mt-auto">
                                     <div class="form-group">
                                         {{ rating_form.submit(class="btn peach-gradient mt-0") }}
                                     </div>
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -51,13 +55,15 @@
                     <div class="col-sm-5">
                         <form class="form" method="POST">
                             <div class="md-form my-0 ml-auto">
-                                <input name="search" class="form-control" type="text" placeholder="Search" aria-label="Search">
+                                <input name="search" class="form-control" type="text" placeholder="Search"
+                                    aria-label="Search">
                                 <i class="fas fa-search text-white ml-3" aria-hidden="true"></i>
                             </div>
                         </form>
                     </div>
                     {% endif %}
                     <!-- Search form -->
+
                 </div>
             </div>
             <!-- Menu -->
@@ -65,32 +71,47 @@
             <!-- Listings -->
             {% for post in posts %}
             <article class="media content-section shadow">
+
                 <!-- Image -->
                 <img class="article-img mr-3" src="{{ post.image_url }}">
 
                 <!-- Listings Body -->
                 <div class="media-body">
+
+                    <!-- Platforms -->
                     {% if category == "Games" %}
                     <div class="article-header-metadata">
-                        <span class="mr-2"><strong>Platforms: </strong>  {{ post.platforms }}</span>
+                        <span class="mr-2"><strong>Platforms: </strong> {{ post.platforms }}</span>
                     </div>
-                    <h2 class="article-title"><a href="{{ url_for('game_media', igdb_id=post.igdb_id) }}">{{ post.name }}</a></h2>
+
+                    <!-- Media Name -->
+                    <h2 class="article-title"><a
+                            href="{{ url_for('game_media', igdb_id=post.igdb_id) }}">{{ post.name }}</a></h2>
+
+                    <!-- Release Date -->
                     <div class="article-footer-metadata">
                         <span><strong>Release Date: </strong><a class="mr-4">{{ post.release_date }}</a> </span>
                     </div>
+
+                    <!-- Genres -->
                     {% elif category == "Movies" %}
                     <div class="article-header-metadata">
                         {% for genre in post.genre %}
                         <span class="mr-2">{{ genre }}</span>
                         {% endfor %}
                     </div>
-                    <h2 class="article-title"><a href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
+
+                    <!-- Media Name -->
+                    <h2 class="article-title"><a
+                            href="{{ url_for('movie_media', media=post.name) }}">{{ post.name }}</a></h2>
+
+                    <!-- Release Date -->
                     <div class="article-footer-metadata">
                         <span><strong>Release Date: </strong><a class="mr-4">{{ post.release_date }}</a> </span>
                     </div>
-                {% endif %}
+                    {% endif %}
                 </div>
-                
+
                 <!-- Rating -->
                 <div class="progress mx-auto my-auto" data-value='{{ post.our_rating }}'>
                     <span class="progress-left">
@@ -99,7 +120,8 @@
                     <span class="progress-right">
                         <span class="progress-bar"></span>
                     </span>
-                    <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                    <div
+                        class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
                         {% if post.our_rating > 0 %}
                         <div class="h2 font-weight-bold">{{ post.our_rating }}</div>
                         {% else %}
@@ -107,6 +129,7 @@
                         {% endif %}
                     </div>
                 </div>
+
             </article>
             {% endfor %}
             <!-- Listings -->
