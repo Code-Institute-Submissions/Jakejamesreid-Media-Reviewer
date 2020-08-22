@@ -26,23 +26,23 @@ This is a website for users to post reviews on their favourite media such as vid
 
 ## Homepage
 <div style="text-align:center;">
-    <img src="assets\img\Homepage.png"></img><br>
+    <img src="static\img\Homepage.png"></img><br>
 </div>
 
 ### Listings Page
 <div style="text-align:center;">
-    <img src="assets\img\Listing Page.png"></img><br>
+    <img src="static\img\Listing Page.png"></img><br>
 </div>
 
 ### Media Details Page
 <div style="text-align:center;">
-    <img src="assets\img\Media Page.png"></img><br>
+    <img src="static\img\Media Page.png"></img><br>
 </div>
 
 ### Review Page
 This page was not needed in the final version as the form for submitting a review was incorporated into the listings page.
 <div style="text-align:center;">
-    <img src="assets\img\Review Page.png"></img><br>
+    <img src="static\img\Review Page.png"></img><br>
 </div>
 ---
 
@@ -69,6 +69,12 @@ Currently the user can only post a review. In a future update the user would als
 
 ### Implement API for movies
 Thye current implementation only has an API for searching video games and not for movies. A future update would be to add this functionality to movies as well.
+
+### Implement pagination on the listings page
+Currently the listings page only displays 20 posts. In the future pagination would be added so the user could view the next 20 posts
+
+### Implement Data filtering
+Display posts by genre, release date, etc
 
 ---
 
@@ -97,6 +103,7 @@ Thye current implementation only has an API for searching video games and not fo
 * HTML 
 * CSS 
 * JavaScript 
+* Python
 * [Bootstrap](https://getbootstrap.com/) - to help adapt for numerous input types
 * [MD Bootstrap](https://mdbootstrap.com/md-bootstrap-cdn/) - Used for enhabced bootstrap designs
 * [VSCode](https://code.visualstudio.com/) - IDE for local development
@@ -237,9 +244,9 @@ The list below displays the current **closed** issues with the project:
 2. After submitting the review form thjere was an issue where when the page was refreshed the form would be submitted again. The solution for this was to add a redirect to the same page in the game_media route as opposed to using render_template. Redirecting allows the page to get a fresh state where as with render_template the browser was storing the state from the last request.
 3. A very unexpected error was that Jinja seems to read Jinja commands even when they are commented out. The following line was still being processed by Jinja in a HTML file. 
 4. If invalid range is specified for the rating field on the review form and the user hits submit, the page will reload and the user will have to scroll back down to the form to see the error message. The rating field now uses a dropdown menu so an invalid range cannot be selected.
-"""
+```
 <!-- {{ render_field(form.rating) }} -->
-"""
+```
 5. Rating bubble displays numbers with more than one decimal place. Used the round function in python to fix this
 
 ---
