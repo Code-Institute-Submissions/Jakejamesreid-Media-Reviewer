@@ -22,11 +22,8 @@
 
             <div class="container title pb-4">
                 <div class="media-title row align-items-center d-flex justify-content-center">
-                    <div class="heading d-inline mr-4">
+                    <div class="heading mr-4">
                         <h1>{{ media.name }} </h1>
-                    </div>
-                    <div class="review-grade d-inline">
-                        <div class="user-rating positive">{{ media.overall_rating }}</div>
                     </div>
                 </div>
             </div>
@@ -43,9 +40,17 @@
                     <div class="col-sm-12">
                         <hr>
                         {% if category == "Games" %}
-                            <h5>Developer: <span class="text-muted">{{ media.developer }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
+                            <h5>Developer: <span class="text-muted">{{ media.developer }}</span> &emsp; 
+                                Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
                         {% elif category == "Movies" %}
-                            <h5>Running Time: <span class="text-muted">{{ media.running_time }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
+                            <h5>Running Time: <span class="text-muted">{{ media.running_time }}</span> &emsp; 
+                                Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp; 
+                                {% if media.user_rating %}
+                                User Rating: <span class="text-muted">{{ media.user_rating }}</span>
+                                {% else %}
+                                User Rating: <span class="text-muted">N/A</span>
+                                {% endif %} 
+                            </h5>
                         {% endif %}
                         <hr>
                     </div>
@@ -107,7 +112,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        {% for review in media.review %}
+                        {% for review in media.reviews %}
                             <!-- TODO: See if this can be put into a template -->
                             <div>
                                 <ol class="list-unstyled">

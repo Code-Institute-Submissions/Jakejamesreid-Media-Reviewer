@@ -25,22 +25,20 @@ def get_media_with_ratings(media_type):
     media_posts_with_rating = calculate_ratings_for_media(media_posts)
     return media_posts
 
-def calculate_ratings_for_media(media_posts):
-    """Return media posts for the given collection
+def calculate_ratings_for_media(media_post):
+    """Calculate the user rating for a given media post
 
-    :param string collection: The name of the databases collection
-    :return: List of media posts
-    :rtype: list
+    :param string media_post: The media that is to have its user rating calculated
+    :return: Media post with user rating
+    :rtype: dict
     """
+    total_rating = 0
 
-    media_posts = list(reversed(media_posts))
-    for media in media_posts:
-        overall_rating = 0
-        for rating in media['review']:
-            overall_rating+=float(rating['rating'])
-        media['overall_rating'] =  round(overall_rating/len(media['review']), 1)
-
-    return media_posts
+    # Calculate for single post
+    for review in media_post['reviews']:
+        total_rating+=float(review['rating'])
+    media_post['user_rating'] = round(total_rating/len(media_post['reviews']), 1)
+    return media_post
 
 def media_sort(media_posts, form, category):
     """Return media posts for the given collection
@@ -116,15 +114,16 @@ def add_new_game_to_DB(game):
         }
         )
 
-def refactor_game_data(games):
 
+def refactor_game_data(games):
+ 
     game_posts = []
     for index,game in enumerate(games):
         if "name" not in game.keys():
             game['name'] = "Unknown Title"
 
         if "cover" in game.keys():
-            game['cover']['url'].replace("t_thumb", "t_cover_big")
+            game['cover'] = game['cover']['url'].replace("t_thumb", "t_cover_big")
         else:
             game['cover'] = {'url':'static/img/placeholder.png'}
 
@@ -169,7 +168,7 @@ def refactor_game_data(games):
             {
                 "igdb_id": game['id'], 
                 "name": game['name'], 
-                "url": game['cover']['url'],
+                "image_url": game['cover'],
                 "release_date": game['first_release_date'],
                 "our_rating": game['rating'],
                 "platforms": ' '.join(game['supported_platforms']),

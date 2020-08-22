@@ -49,75 +49,79 @@ def game_listings():
 @app.route("/movie-listings",  methods=["GET", "POST"])
 def movie_listings():
     media_posts = list(mongo.db.movies.find())
-    media_posts_with_rating = calculate_ratings_for_media(media_posts)
     rating_form = SortRatingForm()
-    sorted_movie_with_rating = media_sort(media_posts_with_rating, rating_form, "Movies")
+    sorted_movies = media_sort(media_posts, rating_form, "Movies")
     
-    return render_template("listings.html", posts = sorted_movie_with_rating, category="Movies", rating_form=rating_form)
+    return render_template("listings.html", posts = sorted_movies, category="Movies", rating_form=rating_form)
     
 @app.route("/games/<igdb_id>", methods=["GET", "POST"])
 def game_media(igdb_id):
 
+    userReviewForm = SubmitReviewForm()
+
     search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation,summary,genres.name,videos.*;
     where id = {igdb_id};"""
     IGDB_game = search_IGDB(search_query)
-    IGDB_game[0]['reviews'] = []
+    IGDB_game_refactored = refactor_game_data(IGDB_game)[0]
 
-    game = refactor_game_data(IGDB_game)
+    # Check for user review
+    user_reviews = mongo.db.games.find_one({'igdb_id': str(IGDB_game_refactored['igdb_id'])})
 
-    DB_game = mongo.db.games.find_one({'igdb_id': str(IGDB_game[0]['id'])})
-    if DB_game:
-        game[0]['reviews'] = DB_game['reviews']
-    userReviewForm = SubmitReviewForm()
+    if user_reviews:
+        user_reviews_with_rating = calculate_ratings_for_media(user_reviews)
+        IGDB_game_refactored['reviews'] = user_reviews_with_rating['reviews']
+        IGDB_game_refactored['reviews'] = user_reviews_with_rating['reviews']
+        IGDB_game_refactored['user_rating'] = user_reviews_with_rating['user_rating']
+        print(IGDB_game_refactored['reviews'])
 
-    return render_template("game_details.html", media = game[0], category="Games", form=userReviewForm)
-    # game = mongo.db.games.find_one({'igdb_id': igdb_id})
-    # if game:
-    #     # Check if user submitted a review
-    #     userReviewForm = SubmitReviewForm()
-    #     if userReviewForm.validate_on_submit():
-    #         # Update the database with user review
-    #         mongo.db["games"].update_one(
-    #         {'igdb_id': igdb_id},
-    #         {
-    #             '$push':
-    #             {
-    #                 'review': 
-    #                 {
-    #                     "id": ObjectId(),
-    #                     "author": userReviewForm.name.data,
-    #                     "comment": userReviewForm.comment.data,
-    #                     "rating": userReviewForm.rating.data,
-    #                     "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    #                 }
-    #             }
-    #         })
+        # Check if user submitted a review
+        if userReviewForm.validate_on_submit():
+                # Update the database with user review
+            mongo.db.games.update_one(
+            {'igdb_id': igdb_id},
+            {
+                '$push':
+                {
+                    'reviews': 
+                    {
+                        "id": ObjectId(),
+                        "author": userReviewForm.name.data,
+                        "comment": userReviewForm.comment.data,
+                        "rating": userReviewForm.rating.data,
+                        "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
+            })
+            flash("Review has been successfully submitted", "success")
+            return redirect(url_for('game_media', igdb_id=igdb_id))
+        return render_template("game_details.html", media = IGDB_game_refactored, category="Games", form=userReviewForm)
+    
+    # If no reviews on page
+    else:
+        # Check if user submitted a review
+        if userReviewForm.validate_on_submit():
+            # Update the database with user review
+            mongo.db.games.insert(
+                {
+                    'igdb_id': igdb_id,
+                    'reviews': [
+                    {
+                        "id": ObjectId(),
+                        "author": userReviewForm.name.data,
+                        "comment": userReviewForm.comment.data,
+                        "rating": userReviewForm.rating.data,
+                        "date_uploaded": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }]
+                })
 
-    #         # Get the latest data from the database and calculate the new rating
-    #         game = mongo.db.games.find_one({'igdb_id': igdb_id})
-    #         game = calculate_ratings_for_media([game])
-
-    #         flash("Review has been successfully submitted", "success")
-    #         return redirect(url_for('game_media', igdb_id=game[0]['igdb_id']))
-
-    #     game = calculate_ratings_for_media([game])
-    #     return render_template("media.html", media = game[0], category="Games", form=userReviewForm)
-    # else:
-    #     game_request = requests.get('https://api-v3.igdb.com/games/', 
-    #     headers={
-    #         "user-key": IGDB_API
-    #     },
-    #     data=f"""fields name,cover.*,platforms.*;
-    #                     where id =  {igdb_id};""")
-    #     game = game_request.json()
-    #     if game:
-    #         pass
-    #         # add_new_game_to_DB(game)
-    #     return redirect(url_for('game_media', igdb_id=game['igdb_id']))
+            flash("Review has been successfully submitted", "success")
+            return redirect(url_for('game_media', igdb_id=igdb_id))
+        return render_template("game_details.html", media = IGDB_game_refactored, category="Games", form=userReviewForm)
 
 @app.route("/movies/<media>", methods=["GET", "POST"])
 def movie_media(media):
     movie = mongo.db.movies.find_one({'name': media})
+    movie_with_rating = calculate_ratings_for_media(movie)
     form = SubmitReviewForm()
 
     if form.validate_on_submit():
@@ -136,12 +140,10 @@ def movie_media(media):
                   }
               }
         })
-        movie = mongo.db.games.find_one({'name': media})
-        movie_with_rating = mongo.db.movies.find_one({'name': media})
+        
         flash("Review has been successfully submitted", "success")
         return redirect(url_for('movie_media', media=movie_with_rating['name']))
 
-    movie_with_rating = mongo.db.movies.find_one({'name': media})
     return render_template("media.html", media = movie_with_rating, category="Movies", form=form)
 
 if __name__ == "__main__":

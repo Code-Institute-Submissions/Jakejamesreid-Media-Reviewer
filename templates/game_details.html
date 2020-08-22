@@ -39,7 +39,15 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <hr>
-                        <h5>Genre: <span class="text-muted">{{ media.genre }}</span> &emsp; Release Date: <span class="text-muted">{{ media.release_date }}</span></h5>
+                        <h5>Genre: <span class="text-muted">{{ media.genre }}</span> &emsp; 
+                            Release Date: <span class="text-muted">{{ media.release_date }}</span> &emsp;
+                            Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp;
+                            {% if media.user_rating %}
+                            User Rating: <span class="text-muted">{{ media.user_rating }}</span>
+                            {% else %}
+                            User Rating: <span class="text-muted">N/A</span>
+                            {% endif %}  
+                        </h5>
                         <hr>
                     </div>
                 </div>
