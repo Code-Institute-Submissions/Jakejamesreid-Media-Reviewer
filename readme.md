@@ -10,8 +10,7 @@ This is a website for users to post reviews on their favourite media such as vid
         * [Fonts](#fonts)
         * [Colours](#colours)
     * [Wireframes](#wireframe-mockups)
-* [User Stories](#user-stories)
-* [Features](#features)
+* [User Stories](#user-stories)git
 * [Future Goals](#future-goals)
 * [Project Planning](#project-planning)
 * [Technology Used](#technologies-used)
@@ -25,18 +24,28 @@ This is a website for users to post reviews on their favourite media such as vid
 
 ## UX (User Experience)
 
+## Wireframe Mockups
 
-### Design Choices
+## Homepage
+<div style="text-align:center;">
+    <img src="assets\img\Homepage.png"></img><br>
+</div>
 
-#### Fonts
+### Listings Page
+<div style="text-align:center;">
+    <img src="assets\img\Listing Page.png"></img><br>
+</div>
 
+### Media Details Page
+<div style="text-align:center;">
+    <img src="assets\img\Media Page.png"></img><br>
+</div>
 
-#### Colours
-
-
-### Wireframe Mockups
-
-
+### Review Page
+This page was not needed in the final version as the form for submitting a review was incorporated into the listings page.
+<div style="text-align:center;">
+    <img src="assets\img\Review Page.png"></img><br>
+</div>
 ---
 
 ## User stories
@@ -45,23 +54,7 @@ Below is a list if the specific user stories for this project.
 2. As a user I want to be able to see the average rating a video game has received.
 3. As a user I want to be able to submit a review for a specific movie.
 4. As a user I want to be able to see the average rating a movie has received.
-
----
-
-## Features
-
-### See the reviews for specific video games
-The user has the ability to search for the name of a specific video game
-
-### Add a review for a specific video game
-The user has the ability to add a review for a specific video game and can give a rating
-
-### See the reviews for specific movie
-The user has the ability to search for the name of a specific movie
-
-### Add a review for a specific movie
-The user has the ability to add a review for a specific movie and can give a rating
-
+5. As a user I want to be able to search for a specific video game or movie.
 
 ---
 
@@ -154,6 +147,7 @@ The photos used in this site were obtained from:
 https://wallpaper-house.com/data/out/10/wallpaper2you_420670.jpg
 https://mdbootstrap.com/docs/jquery/components/jumbotron/
 https://elements.envato.com/movie-or-film-background-J7FLNA8
+https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Finfinite-av.com%2Fwp-content%2Fuploads%2F2018%2F03%2FTV-Icon.png&f=1&nofb=1
 
 ### Acknowledgements
 I received inspiration for the design of the website from:

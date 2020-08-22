@@ -1,17 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {% if category %}
     <title>{{ category }} Listings</title>
-    {% else %}
-    <title>Listings</title>
-    {% endif %}
 {% endblock title %}
 
 {% block content %}
+
 <div class="container py-5">
     <div class="row">
         <div id="content">
+
+            <!-- Title -->
+            <div class="container title pb-4">
+                <div class="row ">
+                    <div>
+                        <h1 class="media-details-title">{{ category }} Listings</h1>
+                    </div>
+                </div>
+            </div>
+
             <!-- Menu -->
             <div class="container">  
                 <div class="row">

@@ -24,7 +24,7 @@
 
             <!-- Content -->
             <h5 class="h5 orange-text"><i class="fas fa-gamepad"></i> Video Games</h5>
-            <h2 class="card-title h2 my-4 py-2">Most Popular Games</h2>
+            <h2 class="card-title h2 my-4 py-2 text-white">Most Popular Games</h2>
             <div class="container border shadow my-5 card-style latest-media-container">
                 <div class="row my-5 mx-3">
                     <div class="card-deck text-center mx-auto">
@@ -32,12 +32,15 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="media-card ">
                                 <div>
-                                    <img class="card-img-top latest-media-img" src="{{ game.image_url }}" alt="">
+
+                                    <a class="text-decoration-none text-body" href="{{ url_for('game_media', igdb_id=game.igdb_id) }}"> 
+                                        <img class="card-img-top latest-media-img" src="{{ game.image_url }}" alt="">
+                                    </a>
+                                   
                                     <div class="card-body">
                                         <h3 class="card-media-title"><a class="text-decoration-none text-body"
                                                 href="{{ url_for('game_media', igdb_id=game.igdb_id) }}">{{game.name}}</a>
                                         </h3>
-
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +65,7 @@
 
             <!-- Content -->
             <h5 class="h5 orange-text"><i class="fas fa-film"></i> Movies</h5>
-            <h2 class="card-title h2 my-4 py-2">Latest Movie Reviews</h2>
+            <h2 class="card-title h2 my-4 py-2 text-white">Latest Movie Reviews</h2>
             <div class="container border shadow my-5 card-style latest-media-container">
                 <div class="row my-5 mx-3">
                     <div class="card-deck text-center mx-auto">
@@ -70,12 +73,13 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="media-card ">
                                 <div>
-                                    <img class="card-img-top latest-media-img" src="{{ movie.image_url }}" alt="">
+                                    <a class="text-decoration-none text-body" href="{{ url_for('movie_media', media=movie.name) }}">
+                                        <img class="card-img-top latest-media-img" src="{{ movie.image_url }}" alt="">
+                                    </a>             
                                     <div class="card-body">
                                         <h3 class="card-media-title"><a class="text-decoration-none text-body"
                                                 href="{{ url_for('movie_media', media=movie.name) }}">{{movie.name}}</a>
                                         </h3>
-
                                     </div>
                                 </div>
                             </div>

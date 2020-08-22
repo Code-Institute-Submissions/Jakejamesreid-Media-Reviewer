@@ -23,9 +23,9 @@
             
             <!-- Title -->
             <div class="container title pb-4">
-                <div class="media-title row align-items-center d-flex justify-content-center">
+                <div class="row align-items-center d-flex justify-content-center">
                     <div class="d-inline mr-4">
-                        <h1>{{ media.name }} </h1>
+                        <h1 class="media-details-title">{{ media.name }} </h1>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,11 @@
             <!-- Trailer -->
             <div class="container trailer shadow px-0">
                 <div class="embed-responsive embed-responsive-16by9">
+                    {% if category == "Games" %}
                     <iframe class="embed-responsive-item" src="{{ media.trailer }}" allowfullscreen></iframe>
+                    {% elif category == "Movies" %}
+                    <iframe class="embed-responsive-item" src="{{ media.video_url }}" allowfullscreen></iframe>
+                    {% endif %}
                 </div>
             </div>
 
@@ -42,6 +46,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <hr>
+                        {% if category == "Games" %}
                         <h5>Genre: <span class="text-muted">{{ media.genre }}</span> &emsp; 
                             Release Date: <span class="text-muted">{{ media.release_date }}</span> &emsp;
                             Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp;
@@ -51,6 +56,16 @@
                             User Rating: <span class="text-muted">N/A</span>
                             {% endif %}  
                         </h5>
+                        {% elif category == "Movies" %}
+                        <h5>Running Time: <span class="text-muted">{{ media.running_time }}</span> &emsp; 
+                            Our Rating: <span class="text-muted">{{ media.our_rating }}</span> &emsp; 
+                            {% if media.user_rating %}
+                            User Rating: <span class="text-muted">{{ media.user_rating }}</span>
+                            {% else %}
+                            User Rating: <span class="text-muted">N/A</span>
+                            {% endif %} 
+                        </h5>
+                        {% endif %}
                         <hr>
                     </div>
                 </div>
@@ -61,7 +76,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h2 class="module_title">Overview</h2>
+                        {% if category == "Games" %}
                         <p>{{ media.summary }}</p>
+                        {% elif category == "Movies" %}
+                        <p>{{ media.description }}</p>
+                        {% endif %} 
                     </div>
                 </div>
             </div>
