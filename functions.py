@@ -15,7 +15,6 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET")
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 IGDB_API = os.environ.get("IGDB_API")
-app.config['DEBUG'] = True
 mongo = PyMongo(app)
 
 

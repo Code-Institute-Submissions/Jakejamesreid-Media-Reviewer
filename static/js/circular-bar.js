@@ -20,15 +20,15 @@ $(function() {
             // Add border colours based on value
             switch(true) {
                 case (value >= 70):
-                    right.addClass('green-border')
-                    left.addClass('green-border')
+                    right.addClass('green-border');
+                    left.addClass('green-border');
                     break;
                 case (value < 70 && value >=40):
-                    right.addClass('orange-border')
-                    left.addClass('orange-border')
+                    right.addClass('orange-border');
+                    left.addClass('orange-border');
                     break;
                 case (value < 40):
-                    left.addClass('red-border')
+                    left.addClass('red-border');
                     break;
               }
         }
