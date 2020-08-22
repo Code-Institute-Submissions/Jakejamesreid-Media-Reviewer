@@ -41,37 +41,22 @@ def calculate_ratings_for_media(media_post):
     return media_post
 
 def media_sort(media_posts, form, category):
-    """Return media posts for the given collection
+    """Return sorted media posts for the given collection
 
-    :param string collection: The name of the databases collection
+    :param list media_posts: List of media posts
+    :param form form: The sorting form
+    :param string category: The collection to be sorted
     :return: List of media posts
     :rtype: list
     """
     # Sort posts by rating
     if form.validate_on_submit():
-        if category == "Games":
-            if form.rating.data == "1":
-                media_posts = sorted(media_posts, key=lambda k: k['our_rating'], reverse=True) 
-            elif form.rating.data == "2":
-                media_posts = sorted(media_posts, key=lambda k: k['our_rating']) 
-        elif category == "Movies":
-            if form.rating.data == "1":
-                media_posts = sorted(media_posts, key=lambda k: k['overall_rating'], reverse=True) 
-            elif form.rating.data == "2":
-                media_posts = sorted(media_posts, key=lambda k: k['overall_rating']) 
+        if form.rating.data == "1":
+            media_posts = sorted(media_posts, key=lambda k: k['our_rating'], reverse=True) 
+        elif form.rating.data == "2":
+            media_posts = sorted(media_posts, key=lambda k: k['our_rating']) 
 
     return media_posts
-
-def check_if_game_search_performed():
-    """
-    Checks if the user search form has been filled out
-    """
-    if request.method == 'POST':
-        search_result  = request.form.get('search')
-        if search_result:
-            return search_result
-        else:
-            return False
         
 def search_IGDB(body):
     gameRequest = requests.get('https://api-v3.igdb.com/games/', 
@@ -81,39 +66,6 @@ def search_IGDB(body):
     data=body)
     gameResults = gameRequest.json()
     return gameResults
-
-def add_new_game_to_DB(game):
-
-    if "cover" in game.keys():
-        game['cover']['url'].replace("t_thumb", "t_cover_big")
-    else:
-        game['cover'] = {'url':'static/img/placeholder.png'}
-
-    if "first_release_date" in game.keys():
-        game['first_release_date'] = datetime.fromtimestamp((game['first_release_date'])).strftime('%Y-%b-%d')
-    else:
-        game['first_release_date'] = "Unknown"
-
-    if "platforms" in game.keys():
-        game['platforms'] = game['platforms']['abbreviation']
-    else:
-        game['platforms'] = "Unknown"
-
-    mongo.db["games"].insert(
-        {
-        'igdb_id': game['id'],
-        'name': game['name'],
-        'image_url': game['name'],
-        'video_url': game['name'],
-        'description': game['name'],
-        'media_category': game['platforms'],
-        'release_date': game['name'],
-        'developer': game['name'],
-        'review': [],
-        'overall_rating': game['name'],
-        }
-        )
-
 
 def refactor_game_data(games):
  
@@ -125,7 +77,7 @@ def refactor_game_data(games):
         if "cover" in game.keys():
             game['cover'] = game['cover']['url'].replace("t_thumb", "t_cover_big")
         else:
-            game['cover'] = {'url':'static/img/placeholder.png'}
+            game['cover'] = 'static/img/placeholder.png'
 
         if "first_release_date" in game.keys():
             game['first_release_date'] = datetime.fromtimestamp((game['first_release_date'])).strftime('%Y-%b-%d')
@@ -159,8 +111,6 @@ def refactor_game_data(games):
             for video in game['videos']:
                 if "Trailer" in video['name']:
                     game['trailer'] = "https://www.youtube.com/embed/"+video['video_id']
-
-
         else:
             game['videos'] = "N/A"
 

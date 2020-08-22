@@ -10,6 +10,7 @@
     <div class="row">
         <div id="content">
 
+            <!-- Alert Message -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -19,16 +20,18 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-
+            
+            <!-- Title -->
             <div class="container title pb-4">
                 <div class="media-title row align-items-center d-flex justify-content-center">
-                    <div class="heading d-inline mr-4">
+                    <div class="d-inline mr-4">
                         <h1>{{ media.name }} </h1>
                     </div>
                 </div>
             </div>
 
-            <div class="container trailer">
+            <!-- Trailer -->
+            <div class="container trailer shadow px-0">
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" src="{{ media.trailer }}" allowfullscreen></iframe>
                 </div>
@@ -57,84 +60,89 @@
             <div class="container summary">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h2>Overview</h2>
+                        <h2 class="module_title">Overview</h2>
                         <p>{{ media.summary }}</p>
                     </div>
                 </div>
             </div>
-
             <hr class="pb-5">
 
             <!-- User Reviews -->
             <div class="container">
                 <div class="row">
-                    <div class="heading col-sm-6 align-items-center d-flex">
+                    <!-- Heading -->
+                    <div class="col-sm-6 align-items-center d-flex">
                         <h2 class="module_title">User Reviews</h2>
                     </div>
+                    <!-- Submit Review Button -->
                     <div class="review-btn col-sm-6">
                         <p>
-                            <a class="btn btn-primary" data-toggle="collapse" href="#submit-review" role="button">
+                            <a class="btn peach-gradient" data-toggle="collapse" href="#submit-review" role="button">
                                 Submit Review
                             </a>
                         </p>
                     </div>
-                    
+
+                    <!-- Collapsable Submit Reviw Form -->
                     <div class="col-sm-12 pb-2">
                         <div class="collapse" id="submit-review">
                             <div class="card-style">
                                 <form action="" method="POST">
                                     {{ form.csrf_token }}
                                     <fieldset class="form-group">
+                                        <!-- Legend -->
                                         <legend class="border-bottom mb-4">Submit Review</legend>
+                                        <!-- Name and Rating -->
                                         <div class="row">
                                             <div class="form-group col-sm-8">
                                                 {{ render_field(form.name) }}
                                             </div>
-            
                                             <div class="form-group col-sm-4">
                                                 {{ render_field(form.rating) }}
                                             </div>
                                         </div>
-
+                                        <!-- Comment -->
                                         <div class="form-group">
                                             {{ render_field(form.comment) }}
                                         </div>
                                     </fieldset>
+                                    <!-- Submit Button -->
                                     <div class="form-group">
-                                        {{ form.submit(class="btn btn-outline-info") }}
+                                        {{ form.submit(class="btn text-white reverse-peach-gradient rounded") }}
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <!-- End Collapsable Submit Reviw Form -->
 
+                    <!-- User Review Card -->
                     <div class="col-sm-12">
                         {% for review in media.reviews %}
-                            <!-- TODO: See if this can be put into a template -->
-                            <div>
-                                <ol class="list-unstyled">
-                                    <li>
-                                        <div class="card-style">
-                                            <div class="row">
-                                                <div class="review-grade col-sm-1">
-                                                    <div class="user-rating positive">{{ review.rating }}</div>
-                                                </div>
-                                                <div class="review-user col-sm-11">
-                                                    <div class="font-weight-bold">{{ review.author }}</div>
-                                                    <div class="text-muted">{{ review.date_uploaded }}</div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <p class="mb-0">{{ review.comment }}</p>
-                                            </div>
+                        <ol class="list-unstyled">
+                            <li>
+                                <div class="card-style px-4 py-4">
+                                    <div class="row">
+                                        <div class="review-user col-sm-11 mb-2">
+                                            <div class="font-weight-bold">{{ review.author }}</div>
+                                            <div class="text-muted">{{ review.date_uploaded }}</div>
                                         </div>
-                                    </li>
-                                </ol>
-                            </div>
+                                        <div class="review-grade col-sm-1">
+                                            <div class="user-rating positive">{{ review.rating }}</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0">{{ review.comment }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
                         {% endfor %}
                     </div>
+                    <!-- End User Review Card -->
                 </div>
             </div>
+            <!-- End User Reviews -->
         </div>
     </div>
 </div>

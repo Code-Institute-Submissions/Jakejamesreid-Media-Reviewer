@@ -4,30 +4,37 @@ from functions import *
 @app.route("/")
 def index():
 
-    # Get the latest Video Games and Movies
-    game_posts = list(mongo.db.games.find())
+    one_year_ago = int((datetime.now() - timedelta(days=365) - datetime(1970,1,1)).total_seconds())
+    search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
+    where first_release_date > {one_year_ago};
+    sort popularity desc;
+    limit 4;"""
+    popular_games = search_IGDB(search_query)
+    popular_games_refactored = refactor_game_data(popular_games)
+
     movie_posts = list(mongo.db.movies.find())
-    return render_template("index.html", game_posts = game_posts[:4], movie_posts = movie_posts[:4])
+    return render_template("index.html", game_posts = popular_games_refactored, movie_posts = movie_posts[:4])
 
 @app.route("/game-listings", methods=["GET", "POST"])
 def game_listings():
 
     # # Check if user searched for a game
     search_media_form = SearchMediaForm()
-    game_searched_by_user = check_if_game_search_performed()
 
-    if game_searched_by_user:
-        search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
-                search "{game_searched_by_user}";
-                limit 20;"""
-        IGDB_games = search_IGDB(search_query)
-        if IGDB_games:
-            IGDB_games = refactor_game_data(IGDB_games)
+    if request.method == 'POST':
+        game_searched_by_user  = request.form.get('search')
+        if game_searched_by_user:
+            search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
+                    search "{game_searched_by_user}";
+                    limit 20;"""
+            IGDB_games = search_IGDB(search_query)
+            if IGDB_games:
+                IGDB_games = refactor_game_data(IGDB_games)
 
-            # Sort posts by rating
-            rating_form = SortRatingForm()
-            sorted_game_posts = media_sort(IGDB_games, rating_form, "Games")
-            return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=rating_form, media_form = search_media_form)
+                # Sort posts by rating
+                sort_by_rating_form = SortRatingForm()
+                sorted_game_posts = media_sort(IGDB_games, sort_by_rating_form, "Games")
+                return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=sort_by_rating_form, media_form = search_media_form)
 
     one_year_ago = int((datetime.now() - timedelta(days=365) - datetime(1970,1,1)).total_seconds())
     search_query = f"""fields name,cover.url,first_release_date,rating,platforms.abbreviation;
@@ -40,10 +47,10 @@ def game_listings():
         game_posts = refactor_game_data(most_popular_games)
 
     # Sort posts by rating
-    rating_form = SortRatingForm()
-    sorted_game_posts = media_sort(game_posts, rating_form, "Games")
+    sort_by_rating_form = SortRatingForm()
+    sorted_game_posts = media_sort(game_posts, sort_by_rating_form, "Games")
 
-    return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=rating_form, media_form = search_media_form)
+    return render_template("listings.html", posts = sorted_game_posts, category="Games", rating_form=sort_by_rating_form, media_form = search_media_form)
 
 
 @app.route("/movie-listings",  methods=["GET", "POST"])
@@ -72,7 +79,6 @@ def game_media(igdb_id):
         IGDB_game_refactored['reviews'] = user_reviews_with_rating['reviews']
         IGDB_game_refactored['reviews'] = user_reviews_with_rating['reviews']
         IGDB_game_refactored['user_rating'] = user_reviews_with_rating['user_rating']
-        print(IGDB_game_refactored['reviews'])
 
         # Check if user submitted a review
         if userReviewForm.validate_on_submit():
